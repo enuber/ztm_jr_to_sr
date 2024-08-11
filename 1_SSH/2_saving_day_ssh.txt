@@ -1,0 +1,46 @@
+// say you have to access in the middle of the night...you can ssh in
+// being done with digital ocean...
+
+ssh root@167.99.146.57
+
+// can check to see if git is installable by just running
+
+git
+
+// if git is not available in the other computer can do
+// will then install git
+
+sudo apt-get install git
+
+// once installed you can then clone your project into it, using the ssh in github for the repo. This is found where you get the repo info, have choice of HTML, SSH...if this fails you can redo with the HTML instead. Otherwise have to set up ssh access in github and create a key.
+
+git clone <repo>
+
+// now you have your project inside of the server. 
+
+// do whatever you need to do, you may have to do npm install to load packages...
+
+npm install
+
+// if not installed have to install node
+
+sudo apt-get install nodejs
+
+nodejs -v <---- gets the version
+
+// then run npm install again if weren't able to before.
+
+exit <--- will leave the ssh
+
+
+______________________________________________________-
+// if you have the files on your computer and need to move them to the server you can install rsync then
+
+// this is the syntax 
+// rsync - command used for syncing files and directories between two locations
+// -a - stands for archive mode, preserves links, permissions, timestampts, and other file properties
+// -v - stands for verbose shows detailed info about the sync process
+// . - referst ot current directory from which file will be synced
+// rest of it - the destination where the files will be synced. 
+
+rsync -av . root@167.99.146.57:~/projectfoldername

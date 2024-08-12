@@ -1,0 +1,36 @@
+// Encryption - a way to jumble up something so that it is impossible for a third party to read without decryptiing it. 
+
+// Symetrical encryption - uses one secret key for both encryption and decryption. 
+
+  EX:  "Hello" < KEY HERE > "EI320+@2" < SAME KEY HERE > "Hello"
+
+  cons - if somoene has the key or can figure out the key than the data being sent isn't overly safe.
+  
+  So the key has to be secure in some way. This is done through a key exchange algorithm which will be explained below.
+
+
+// Asymmetrical encryption - uses two separate keys where client has one key and host has another. Each has two sets of keys, public keys and private keys. 
+  
+  public key can be shared with no problem
+
+  private key should never be shared. 
+
+  a message that has been encrypted by the public key can only be decrypted by the private key on the same machine. So like your client has two "red" keys one is public one is private. and host has two "blue" keys one public and one private. It is a one way relationship. 
+
+  so to communicated, the host sends you their public key which is used to encrypt the message and, once the message is recieved the hosts private key is used to decrypt it. And works vice versa. So we would send them the client public key and data/messages back to us are encrypted with the client public key and decrypt wiht the client private key.
+
+  key exchange algorithm needs to have asymmetrical encryption. So when ssh is used it may be symmetrical but when ssh is set up, the key exchange happens using the difiie hellman key exchange which is similar but not quite asymmetrical. The difiie hellman exchange creates the keys without ever exchanging keys so that info can be sent securely.
+
+
+// Hashing
+
+another form of cryptography. We used bcrypt to hash passowrds in web dev course. This is kind of one way as there is no way to go back from "hello" to a really long hash. 
+
+So by using hashing with symmetrical or asymmetrical encryption we are able to verify they authentication of the message. So if anyone is trying to modify anything we would know. 
+
+This is done using HMACs - Hash Based Message authentication codes. Git is using a hash function each messge that is transmitted must contain a "MAC" that is generated from the symmetric key, the packet sequence number and the message contents that are being sent. 
+
+So on the other end when sending data, the same hash will be created using the key and, if the hashes match then we know the message hasn't been tampered with.
+
+
+______________________________________________________

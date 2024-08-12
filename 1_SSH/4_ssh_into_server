@@ -1,0 +1,12 @@
+passwords or ssh
+
+1. Diffie-Hellman key exchange
+2. Arrive at symmetric key
+3. Make sure no funny business
+4. authenticate user
+
+We need to authenticate the user so we know the person has the right to communicate. It is the default when you ssh into something. So just having the ip address doesn't allow anyone to get into the server.
+
+Two ways
+ask for password and enter it in.
+

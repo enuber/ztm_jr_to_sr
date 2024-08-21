@@ -1,0 +1,104 @@
+Critical render path
+
+Client ====> server
+
+first thing that happens, HTML file is requested and sent back
+
+The browser starts to read the file and creates the DOM tree which describes the file. 
+
+When it sees the CSS files or JS files, it requests those and when they come back it continues working on creating the DOM tree, the structure of the site. 
+
+When the css files come back it also starts generating the tree model called ther CSSOM. (CSS object model) 
+
+The browser reads the JS files and executes any changes to the DOM or CSSOM. 
+
+Once that is all done the DOM and CCSOM are combined so that the render tree has info from both the HTML and styling and layout information. This is what is used to figure out the layout. It then paints out the page. 
+
+Images start to download as soon as it sees it in the html/css but the rest continues to happen wihtout the images. 
+
+
+___________________________________________
+
+How to optimize CRP
+
+CSS and JS get high priority, images get low priority.
+
+Load CSS as soon as possible and JS as late as possible. JS requires css and dom to be done before it does anything. If you put JS in the header it is unnecessary to have and slows down the process. (note that defer in head has replaced this)
+
+
+
+CSS - is render blocking, because it has to be combined with the DOM in order to make the render tree. So CSS needs to be as lightweight as possible. 
+
+1 Only load whatever is needed - don't overbloat your css, don't use libraries unless you really need. 
+
+2 Above the fold loading - (video critical render path 2) - write a function to load styles for below the fold to load later. will have the page up first and then because JS executes, will load the next set of CSS
+
+const loadStyleSheet = src => {
+  if (document.createStylesheet) {
+    document.createStylesheet(src)
+  } else {
+    const stylesheet = document.createElement('link');
+    stylesheet.href = src;
+    stylesheet.type = 'text/css';
+    stylesheet.rel = 'stylesheet';
+    document.getElementsByTagName('head')[0].appendChild(stylesheet);
+  }
+}
+
+window.onload = function() {
+  loadStyleSheet('./style3.css');
+}
+
+can also do either inline styles or add what you want to load above the fold in <style> </style> tags in the head. This isn't great for a multi-page site though. Better to have separate CSS pages.
+
+
+3 Media attributes - media queries. This helps load what you need for specific screen sizes 
+can do this in html as well by adding media="only screen and (min-width:500px)" for example directly in the link tag to the stylesheet
+<link rel='stylesheet' href='./style2.css' media="only screen and (min-width:500px)">
+
+4 Less specificity - be as specific as possible when you write your CSS. meaning 
+
+//bad
+.header .nav .item .line a.important {
+
+}
+
+//good
+
+a.important {} or
+.important {}
+
+___________________________________________
+
+JavaScript
+
+Can access and alter the DOM or CSS, once that is done then the page is get rendered. JS is parser blocking. 
+
+1 load scripts asynchronously - 
+<srcipt async> </srcipt> - download the file while working on html parsing, downloads on low priority and doesn't block. It can execute though at any time so may have issues if doing DOM maniuplation. Add this way if it doesn't effect the DOM or CSSOM. no knowledge of our code. Like analytics or tracking. 
+
+2 defer loading of scripts
+<script defer></script> - will not block loading of page, will wait until after everything is parsed and then start executing. This is really good for DOM/CSSOM manipulation because we are sure the page is all there. 
+
+RULE - if the core functionality requires JS async is best. If core functionality doesn't require JS, then JS should be deferred outside of the CRP. For critical scripts, your app scripts should be at end of body in script tags. 
+
+3 minimize DOM manipulation - 
+
+4 avoid long running JavaScript - this is like using alert() where it stops everything until someone clicks the button to close the alert. 
+
+
+___________________________________________
+
+once DOM and CSSOM is done, and JS is read, we get to DOMContentLoaded event which is where the render tree starts, the layout and finally paint. Once finished painting, we then have the Load event.
+
+After Load JS then happens. and this can modify the page and the render tree --> layout --> paint happens as people use the page. 
+
+
+
+___________________________________________
+
+Test page speed
+
+https://pagespeed.web.dev/
+
+https://www.webpagetest.org/

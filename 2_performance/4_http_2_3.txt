@@ -1,0 +1,20 @@
+HTTP/2
+
+a protocol update that improves network latency. Minification, compression, image optimization should be continued. Combining files into a bundle yourself may not matter because of multiplexing. Servers are faster so eliminating a request may not actually be faster. 
+
+node js
+
+
+const http2 = require('http2');
+const fs = require('fs');
+
+const options = {
+  key: fs.readFileSync('./selfsigned.key'),
+  cert: fs.readFileSync('./selfsigned.crt'),
+  allowHTTP1: true
+}
+
+const server = http2.createSecureServer(options, (req, res) => {
+  res.setHeader('Content-Type', 'text/html');
+  res.end('ok');
+})

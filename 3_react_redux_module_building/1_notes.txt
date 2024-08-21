@@ -1,0 +1,101 @@
+state management
+
+state describes what our app should look like. It also is like memory where it needs to remember something and, if it changes than update.
+
+
+
+Redux allows for complex management of state. It now holds state in a store. When we need state from the store we get it. The store manages the state so if we update state, we are updating it in the store and, the store then notifies the correct components that there was a change and that component can update. 
+
+This means it is a far less complex tree structure where we are passing state down trees and back up. 
+
+
+__________________________________________________
+
+Why Redux
+
+Good for managing large state
+
+useful for sharing data between containers
+
+predictibable state management using the 3 principles. 
+
+3 principles:
+Single source of truth - the store in redux
+
+state is read only - 
+
+changes using pure fuctions - receives an input and always returns a predictibable output
+
+
+Redux uses 
+
+Action - something a user does as soon as a user creates that acton and sends it to the reducer
+
+Reducer - receives the action and creates output which is the state or the store as we call it in redux. 
+
+store - holds the state
+
+Make changes - react automatically then makes changes as needed
+
+
+Redux uses a flux pattern
+
+action ----> Dispatcher ----> Store ----> View
+
+one way data flow
+
+
+NOTES FOR ACTUAL CODING PORTION
+
+need to install two packages for redux
+
+npm i redux
+npm i react-redux
+
+redux has a lot of boilerplate code in order to get things going. It is code that is written over and over and is repetitive. Redux Toolkit allows you to use redux more efficiently.
+
+https://redux-toolkit.js.org/
+
+
+
+MIDDLEWARE NOTE SUPER HELPFUL REDUX-LOGGER
+
+listens for actions - tunnel actions go thru that something then happens before going to the reducer.
+
+ex: for helping with debugging can use redux-logger
+
+redux-logger - useful for logging what actions and state are in redux
+
+redux-thunk - handles asynchronous actions like AJAX calls provides a getState and dispatch function that is passed on. waits to see if any actions return a function instead of an object.  
+
+npm i redux-logger
+npm i redux-thunk
+
+
+__________________________________________________
+
+popular tools for react and redux
+
+React Router = changing pages or routes, standard and easy to use/learn
+
+Ramda, Lodash
+
+glamourous, styled-components, css-modules - for styling
+
+gatsby.js - for text based pages
+
+next.js - server side rendered apps 
+
+material-ui semantic-ui - already built components that people share and you can add on
+
+reselect - makes redux more efficiently
+
+redux-saga.js - handles asynch things like data fetching, like redux-thunk but super charged. a bit complicated to learn
+
+immutable.js - makes sure you don't mutate state. 
+
+
+__________________________________________________
+
+Module bundlers
+

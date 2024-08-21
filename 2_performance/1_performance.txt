@@ -1,0 +1,17 @@
+Performance is important 
+
+client =====> server
+
+make a request the server returns the html file. The browser starts reading it, when it sees it needs a CSS file, it makes that request and grabs the style sheet from the server. Then may sees an image, in background it requests that and grabs it, then the JS file etc...
+
+This is simplified of what is happening but core concepts are there. Client / Server relationship. 
+
+3 keys to Performance
+
+1 - Front end - needs time to render the page. (critical render path, optimized code, progressive web app)
+
+2 - transfer of files over the wire, network latency, which is every request needs time from client to server and back. the time to do the transfer.  (minimize files, minimize delivery)
+
+3 - improve the processing done on the backend. The web server needs time to load data from db and maybe assemble website before it sends it back to the frontend. (CDNs, caching, load balancing, DB scaling, GZIP)
+
+

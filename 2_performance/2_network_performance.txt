@@ -1,0 +1,28 @@
+Network Performance
+
+We must send a request to a server to get a website. Often many requests happen to load one page of a site.
+
+Minimize files - the more kb need to download the longer it takes to load. 
+
+How?
+minimize the text files, HTML CSS JS, and minimize the images. To minimize the text files you can use uglify.js, (webpack has stuff that does this as well).
+
+for images should use file type that goes with what you are using. 
+jpg - used for photos and images with many colors. no transparency. bigger in file size
+
+gif - can be grainy and limited in color, reducing the color count reduces file size.
+
+png - limit number of colors, smaller in file size. Good for logos and transparency.
+
+svg - vector graphics. can be used to expand well beyond size because of how they are built. Very good for sharpness. But very simplistic. 
+
+The above are all not as good as jpeg 2000 and webp. 
+
+sites to use for reducing file size
+PNG - Tinypng
+JPG - JPEG-optimizer
+
+
+Minimize delivery - 
+
+reducing the number of components that need to be requested and delivered. 

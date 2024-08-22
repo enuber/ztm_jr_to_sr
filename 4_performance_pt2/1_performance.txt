@@ -1,0 +1,19 @@
+performance part 2
+
+Optimized code
+
+JS executes and allows users to interact with the page. Once downloaded one of the heaviest costs is to parse and compile the code, to read and understand the code. 
+
+in dev tools, you can use the performance tab. Here you can record what is going on. You hit record and then refresh the page. You can stop the record when you want but, you will get a summary of hwat is happening as well as a video strip that shows you what is going on during your session.
+
+Scriptiing shows the JS parse and compile time. You can go to the bottom-up part of the dev tools to see a further break down. 
+
+Request JS ---> JS Arives ---> Fetch call(maybe) ---> fetch content arrives ---> Page is interactive
+
+between JS Arrives and Fetch and content arrives and page interactive there is compiling/parsing/executing.
+
+You can also use webpagettest.org to get a processing breakdown of the page as well. 
+
+
+
+Progressive web app 

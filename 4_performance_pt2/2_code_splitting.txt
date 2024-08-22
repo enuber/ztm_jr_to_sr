@@ -1,0 +1,66 @@
+Code Splitting
+
+modern websites have alot of javascript. 
+
+Previously it was common to have one giant JS file that has all the code in it. So why ship JS if the user doesn't need it. It is a waste of resources. You want to send multiple requests for smallers JS files. It benefits from doing this. This is what code splitting refers to.
+
+send down a minimial amount of code needed for a page to work rather than everything. If you have a multi page site, and your user doesnt ever go to a couple of pages there is no reason to have that code delivered. So you wrap the JS needed into smaller files and send it along. 
+
+There may be one main JS file that has important stuff relevant to all pages like navigation but in the smaller files you put the things relevant just to the page they are on.
+
+
+import keyword usually at top of files if you put import inside of code someplace else in code it knows that it will only need it when it gets requested. 
+
+
+Route based chunking - splitting code based on routes which is shown in the code_splitting react project Here
+
+React-router documentation has info on this as well.
+
+
+Component based chunking - code split on component level. If your home page is really big then this may be a good use. Like if you have a sidebar menu that pops out, it only activates when somoene clicks on that. 
+
+React Loadable - library used for component based code splitting. Can use this.
+
+
+NOTE: React.lazy is now recommended way to do code splitting
+
+React.Suspense is a component in React that allows you to handle the loading state of components that are being dynamically loaded or fetched. It is primarily used in conjunction with React.lazy, which enables code splitting by allowing components to be loaded asynchronously.
+
+Key Points About React.Suspense:
+Purpose:
+
+It is used to provide a fallback UI (such as a spinner or loading message) while waiting for a dynamically imported component or data to be loaded.
+How It Works:
+
+When a component wrapped in React.lazy is being loaded, React will suspend the rendering of that component until the import completes.
+While the component is loading, Suspense displays the fallback UI specified in its fallback prop.
+Syntax:
+
+jsx
+Copy code
+import React, { Suspense, lazy } from 'react';
+
+const MyComponent = lazy(() => import('./MyComponent'));
+
+function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <MyComponent />
+    </Suspense>
+  );
+}
+In this example:
+
+MyComponent is imported dynamically using React.lazy.
+While MyComponent is being loaded, Suspense displays <div>Loading...</div>.
+Benefits:
+
+Code Splitting: It allows you to split your code into smaller bundles that can be loaded on demand, improving initial load times.
+Declarative Loading: It provides a declarative way to handle loading states for components that are being fetched asynchronously.
+Limitations:
+
+Error Boundaries: While Suspense handles loading states, it does not handle errors that may occur during component loading. You may need to use error boundaries in conjunction with Suspense for comprehensive error handling.
+Integration with Concurrent Mode:
+
+React.Suspense works well with React's Concurrent Mode, allowing more advanced features like interruptible rendering and prioritizing updates. However, Concurrent Mode is still experimental and might not be fully stable in all React versions.
+In summary, React.Suspense is a powerful tool for managing the loading state of components, making it easier to handle asynchronous operations and code splitting in React applications.

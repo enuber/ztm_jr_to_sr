@@ -1,0 +1,21 @@
+to work with PWA and put the site up on Github pages you can
+
+1 install a helper tool in a react programmable
+
+npm i gh-pages
+
+in the package.json file
+
+2 create new scripts for predeploy and deploy
+
+predeploy gets run before deploy does so you can just do the 
+
+npm run deploy 
+
+and both will run.
+
+
+3 add a "homepage" to package.json
+
+"homepage" : "https://enuber.github.io/reponame",
+

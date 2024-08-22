@@ -1,0 +1,54 @@
+React Optimization
+
+in the URL when developing a react app, you can type after localhost:/3000
+
+?react_perf 
+
+then with the devtools open, when you record performance of interacting with the page you will get info back.
+
+good indicator of bottlenecks but not the same as live performance as development is generally slower and has more going on.
+
+
+For things that don't need to rerender but are rerendering 
+old way is using shouldComponentUpdate() {} 
+
+newer way is using React.memo
+
+import React from 'react';
+
+// React.memo is used to prevent unnecessary re-renders
+const Header = React.memo(() => {
+  return <h1 className="f1">RoboFriends</h1>;
+});
+
+export default Header;
+
+another example..you get nextprops and nextState in the lifecycle method. Can use to set whether something should rerender or not based on if something changes like a count button.
+
+shouldComponentUpdate(nextProps, nextState) {
+  if (this.state.count !== nextState.count) {
+    return true
+  }
+  return false
+}
+
+PureComponent for classes also exist you extend PureComponent instead
+
+When to Use PureComponent
+Class Components: If you are working with class components and want to avoid unnecessary re-renders, PureComponent is a good choice.
+
+Simple Shallow Comparisons: PureComponent is useful when you want to perform a shallow comparison of props and state. It works well when your component's props and state are simple and don't involve deep structures like nested objects or arrays.
+
+again with hooks PureComponent isn't used as often anymore. That and React.memo is 
+
+
+
+In React, both PureComponent and React.memo are used to optimize performance by preventing unnecessary re-renders of components, but they handle updates differently:
+
+PureComponent
+PureComponent is a base class for class components that implements a shallow comparison of props and state in its shouldComponentUpdate method. This means that if the props and state haven't changed (based on shallow comparison), the component will not re-render.
+If a parent component passes new props to a PureComponent, the component will update only if the shallow comparison determines that the props have changed. This means that if the new props are deeply equal to the previous props (e.g., the same object reference), the component will not re-render.
+React.memo
+React.memo is a higher-order component (HOC) for functional components that also performs a shallow comparison of props by default. If the props passed to the functional component have not changed (based on shallow comparison), the component will not re-render.
+You can also pass a custom comparison function to React.memo to control when the component should update based on more complex prop comparisons.
+In both cases, if the props change (according to their respective comparison methods), the component will re-render. However, if the props are the same as before (shallowly compared), the component will avoid unnecessary re-renders.

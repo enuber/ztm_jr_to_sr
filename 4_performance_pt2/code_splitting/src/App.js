@@ -1,36 +1,68 @@
-import React, { Component } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import './App.css';
-import Page1 from './components/Page1';
-import AsyncComponent from './components/AsyncComponents';
 
-class App extends Component {
-  state = {
-    route: 'page1',
+// Dynamically import the components
+//This will ensure that Page1, Page2, and Page3 are loaded only when they are needed.
+const Page1 = lazy(() => import('./components/Page1'));
+const Page2 = lazy(() => import('./components/Page2'));
+const Page3 = lazy(() => import('./components/Page3'));
+
+const App = () => {
+  const [route, setRoute] = useState('page1');
+
+  const onRouteChange = (route) => {
+    setRoute(route);
   };
 
-  onRouteChange = (route) => {
-    this.setState({ route: route });
-  };
-
-  render() {
-    const { route } = this.state;
-
-    let RenderedComponent;
-    if (route === 'page1') {
-      RenderedComponent = Page1;
-    } else if (route === 'page2') {
-      RenderedComponent = AsyncComponent(() => import('./components/Page2'));
-    } else if (route === 'page3') {
-      RenderedComponent = AsyncComponent(() => import('./components/Page3'));
-    } else {
-      return <div>Loading...</div>;
-    }
-
-    return <RenderedComponent onRouteChange={this.onRouteChange} />;
-  }
-}
+  //React.Suspense is a component in React that allows you to handle theloading state of components that are being dynamically loaded or fetched. It is primarily used in conjunction with React.lazy, which enables code splitting by allowing components to be loaded asynchronously.
+  return (
+    <div className="App">
+      <Suspense fallback={<div>Loading...</div>}>
+        {route === 'page1' && <Page1 onRouteChange={onRouteChange} />}
+        {route === 'page2' && <Page2 onRouteChange={onRouteChange} />}
+        {route === 'page3' && <Page3 onRouteChange={onRouteChange} />}
+      </Suspense>
+    </div>
+  );
+};
 
 export default App;
+
+///------------------------------------------------- revised using AsyncComponent
+
+// import React, { Component } from 'react';
+// import './App.css';
+// import Page1 from './components/Page1';
+// import AsyncComponent from './components/AsyncComponents';
+
+// class App extends Component {
+//   state = {
+//     route: 'page1',
+//   };
+
+//   onRouteChange = (route) => {
+//     this.setState({ route: route });
+//   };
+
+//   render() {
+//     const { route } = this.state;
+
+//     let RenderedComponent;
+//     if (route === 'page1') {
+//       RenderedComponent = Page1;
+//     } else if (route === 'page2') {
+//       RenderedComponent = AsyncComponent(() => import('./components/Page2'));
+//     } else if (route === 'page3') {
+//       RenderedComponent = AsyncComponent(() => import('./components/Page3'));
+//     } else {
+//       return <div>Loading...</div>;
+//     }
+
+//     return <RenderedComponent onRouteChange={this.onRouteChange} />;
+//   }
+// }
+
+// export default App;
 
 ///------------------------------------------------- revised code splitting
 

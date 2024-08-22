@@ -1,0 +1,101 @@
+Progressive web app
+
+a web app is a website that allows a user to interact in many ways. It is inside a browser window.
+
+a native app is one that is on a mobile platform. 
+
+to create a web app you need to know HTML, CSS and JS
+
+to create a native app you need to know Java for android or Objective-C or Swift for iphone.
+
+a native app can live on your phone, can send push notifications, or work offline. 
+
+PWA's allow you to make web apps work like native apps. They are still web apps but act like native apps.
+
+React Native also allows you to build apps that work on Android and iOS
+
+in devtools using Lighthouse you will get info on PWA and how close your app is to a PWA.
+
+https://create-react-app.dev/docs/making-a-progressive-web-app/
+
+
+https://debuggerdotbreak.judahgabriel.com/2018/04/13/i-built-a-pwa-and-published-it-in-3-app-stores-heres-what-i-learned/
+
+
+a pwa can run offline. May be a good idea for a react project to build
+https://pokedex.org/
+
+
+to build a PWA you need a few basic things to be done. 
+
+HTTPS
+
+sends info encrypted, Github pages already makes your site https. However most people want to be able to put their site up on their own server. 
+
+https://letsencrypt.org/
+
+The above site helps you create the certificate you need to make a secure site.
+
+Cloudflare - a CDN or a server you can put your site on. Through them you get HTTPS.
+
+site for getting started with github pages
+https://pages.github.com/
+
+supposed to be the checklist but is more a Q&a
+https://web.dev/articles/pwa-checklist
+
+
+
+App Manifest
+Have to mimic native app you need to create an app manifest.
+
+first need to makes sure you have the meta tag for viewport
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+
+with create react app you get a manifest.json file. it is in the public folder. It is how app should appear like mobile device home screen, how it should launch, how it should look. 
+
+one of the things in this file is the icons to be used. The icons need to be in the public folder as well and, then reference the correctly in the manifest.json file.
+
+can use this site to help with generating these icons. 
+https://realfavicongenerator.net/
+
+There is also a splash screen where you set the color and, the screen will show the color in the background, the name and icon of the web app.
+
+
+
+
+Service Worker
+script run in the background separate from the webpage. Generally used for features that don't need a web page or user interaction. It is a background worker. It is a programmable proxy, what happens on a request by request basis. It also helps with push notifications and background syncs. 
+
+Its main feature is for offline experiences. 
+
+In order to get the file you need you have to generate it yourself. use this link to get the walkthrough on how to do so.
+https://create-react-app.dev/docs/making-a-progressive-web-app/
+
+file should be called serviceWorker.js
+
+without a service worker the browser will send a request to the network. This is normal practice.
+
+with a service worker, it tells the browser to talk to the service worker first. in a PWA a service worker acts like a proxy, it intercepts requests made first to the network and checks to see if you really need to check with the network. It may already be in the web API or Cache API. If not then the request goes to the network if it's not already available. 
+
+NOTE: IMPORTANT
+Make a PWA use this, which shows a different way to start your react project
+
+https://create-react-app.dev/docs/making-a-progressive-web-app/
+__________________________________________________________________
+
+there are just some additional steps you will have to run to convert your react app to be able to perform the next step modifications to be PWA compliant!
+
+You only need to do this if you are running react-scripts v.4 or greater or React v17 or greater and you did not create this project using the cra-template-pwa when we initialized our project.
+
+Follow the following steps:
+
+1. In a new and separate directory from our current project, generate a new CRA react app with the service worker template:
+
+npx create-react-app my-app --template cra-template-pwa
+
+2. Copy the service-worker.js and serviceWorkerRegistration.js file from the new created app and add it into our client/src directory.
+
+3. Copy the all the "workbox-*" dependencies from the package.json file in the dependencies section and add it into our client folders package.json dependencies. Then re-install your packages using yarn or npm depending on whichever package manager you have been using up to this point!
+
+4. Copy index.js info about service worker to your current index.js

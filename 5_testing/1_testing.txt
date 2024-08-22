@@ -1,0 +1,63 @@
+test files are run in development and are written to make sure code you wrote works as expected.
+
+types of tests
+
+Unit tests
+most common, easiest to implement. Tests individual functions or classes. should cover all small pure functions. take an input and return an output. can write unit tests very easy, based on an input do you get this output.  React stateless functional components don't have state or any life cycles they get an input which are props and they return an output a view. Unit tests don't test the contract, it is the connection between things. Like server and database, a function and another function, unit tests would test each function separately not how they interact with eachother. 
+
+
+Integration tests
+testing how different pieces of code work together. Like how a database works with the express app that requests some data from the database. how a function works with another function and how the connection between them works
+
+All about cross communication between units of code. You would probably use spies to ensure expected side effects instead of jsut asserting an output. Or you might use stubs to mock and modify parts of a process that are not in a specific test like mocking a database call.  A browser or browser like envrionment could help with the process that are dependent on the window object. 
+
+Overall integration is about testing components working together instead of small individual units. Downside is that there is more time taken to write then and think about how to test them. If you change something the test may break so the test has to be redone to account for changes. They are harder to write. Unlike unit tests, you could write lots of these and still not be 100% complete in the process because it can cover so many variations. 
+
+
+
+
+Automation Tests
+Testing real life scenarios by controlling the browser and making sure things on the site behave as you expcet them to when you are using the site. 
+
+end to end testing is another name for automation tests. They simulate user behaviour, clicking, typing scrolling. These tests are the hardest to set up. 
+
+Usually only find at companies that can afford to do this. 
+
+companies that offer services to help with this, Nightwatch, webdriver, testcafe, nightmare, cypress
+
+
+
+Testing Libraries
+
+Need a testing library - used to write our tests, its scaffolding for writing the tests
+
+most common, Jasmine, Jest and Mocha 
+
+
+assertion library - tool used in software testing that provides a set of functions (assertions) to check if certain conditions hold true during the execution of code. These libraries are essential for writing unit tests, where they help to validate that the code behaves as expected by comparing actual outputs against expected results.
+
+most common - Jasmine, Jest, Chai (goes with Mocha)
+
+
+Test runner - allows us to run our tests. 
+
+most common - Jasmine Jest Mocha and Karma (allows you to run test in the browswer)
+
+
+Mock spies and stubs - spies provide info about functions, stubbing replaces selected functions with a function to ensure that the expected behaviour happens, mocks is like faking a function or behaviour. 
+
+most common - Jasmine, Jest, Sinon (for mocha, chai)
+
+
+Code coverage - shows how much testing has been done, so the coverage breaks down statments, branches, functionsn and lines to show where tests have been done.
+
+common - jest and instanbul 
+
+done by running 
+
+npm test -- --coverage
+
+
+snapshot testing - a testing technique used to ensure that the UI (or other output) of an application remains consistent over time. It involves capturing the current state (or "snapshot") of a component or piece of functionality and comparing it to a reference snapshot stored in a file. If the output changes unexpectedly, the test will fail, alerting the developer to a potential issue.
+
+Enzyme - created by airbnb and helps write tests better for React components. a JavaScript testing utility for React developed by Airbnb. It allows you to shallowly or fully render React components, traverse their output, and interact with them. Enzyme works with various testing frameworks, but it's most commonly used with Jest.

@@ -98,4 +98,6 @@ npx create-react-app my-app --template cra-template-pwa
 
 3. Copy the all the "workbox-*" dependencies from the package.json file in the dependencies section and add it into our client folders package.json dependencies. Then re-install your packages using yarn or npm depending on whichever package manager you have been using up to this point!
 
-4. Copy index.js info about service worker to your current index.js
+4. Copy index.js info about service worker to your current index.js, need to remember the import at the top and, change unregister to register.
+
+

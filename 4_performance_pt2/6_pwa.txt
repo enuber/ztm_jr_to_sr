@@ -1,0 +1,27 @@
+to raise lighthouse scores here are somethings being done that may be useful for other projects
+
+1. as we are using a special font, we can add to the app.css, the following which has a default font in place untilt he font is loaded.
+
+font-display: swap
+
+
+2. for the input box for searching, need to add in accessibility for screen readers, goes in SearchBox.js
+
+aria-label="Search robots" 
+
+
+moving on to PWA stuff
+
+use https://realfavicongenerator.net/ to generate your icons. Copy all icons into public folder, copy code that is generated and add it to the html doc. 
+
+add %PUBLIC_URL% before each of the urls as in other links seen in the index.html file.
+
+in the manifest.json, update the icons to include the 192x192 and 512x512
+
+
+website that lists all tools that you can use to improve front end performance of your web app: 
+https://progressivetooling.com/
+
+
+pwas in app store - if want to launch a web app to the app store.
+https://web.dev/articles/pwas-in-app-stores

@@ -19,3 +19,9 @@ and both will run.
 
 "homepage" : "https://enuber.github.io/reponame",
 
+
+4 run the deploy
+npm run deploy
+
+
+5 go to github in the settings for the repo scroll down to github pages and make sure that the branch selected is on gh-pages branch.

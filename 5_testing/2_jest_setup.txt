@@ -13,56 +13,363 @@ in the scripts portion of the package.json file, update to the below so when you
 
 you typically name files with .test.js or can do .spec.js. you would call it based on what the file is you are testing. so app.test.js or button.test.js...etc. You can also have them in a test folder which jest will search for. 
 
+using node to run the tests
+
+in terminal for example
+npm test
+
+remember can run your js files using node as well
+node script.js
+
 ____________________________________
 when unit testing functions, you can export them and then import them into the test file since it's all just JavaScript. Shown in the files with common JS instead of import/export. 
 
 
-1. Using ES Modules (import/export)
-If your project is set up with "type": "module" and you prefer to use ES module syntax:
+To set up your project for using import/export with Jest in your Node.js project, you'll need to make a few adjustments. Here’s a step-by-step guide:
 
-Jest Configuration
-Jest ESM Support: Jest has experimental support for ES modules. You need to ensure that Jest is configured to work with them.
-In your package.json or Jest configuration file (jest.config.js), you can set the transform option to use Babel, which allows Jest to understand ES modules:
+1. Install Necessary Dependencies
+Since you want to use import/export, and Jest doesn't fully support ES modules out of the box without additional configuration, you'll need to use Babel to transpile your code.
+
+Run the following command to install Babel and its presets:
+
+npm install --save-dev @babel/core @babel/preset-env babel-jest
+
+2. Set Up Babel Configuration
+Create a .babelrc file in the root of your project with the following content:
 
 {
-  "jest": {
-    "transform": {
-      "^.+\\.[t|j]sx?$": "babel-jest"
-    }
-  }
-}
-
-You'll also need a Babel configuration (babel.config.js):
-module.exports = {
-  presets: [
+  "presets": [
     [
       "@babel/preset-env",
       {
-        targets: {
-          node: "current"
+        "targets": {
+          "node": "current"
         }
       }
     ]
   ]
+}
+This tells Babel to use the @babel/preset-env preset, which allows you to use the latest JavaScript features and transpile them down to a version of JavaScript that Node.js can run.
+
+3. Update package.json
+Your package.json should already have "type": "module", which tells Node.js to treat .js files as ES modules. You also need to modify the test script to ensure Jest uses Babel.
+
+Here's how your package.json should look:
+{
+  "name": "test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "babel-jest": "^29.7.0",
+    "@babel/core": "^7.22.5",
+    "@babel/preset-env": "^7.22.5"
+  }
+}
+4. Adjust Jest Configuration (Optional)
+If you need more control over Jest's behavior, you can create a jest.config.js file. However, for basic setups, Jest should work fine with Babel without this file.
+
+export default {
+  transform: {
+    "^.+\\.js$": "babel-jest"
+  }
 };
+This configuration explicitly tells Jest to use Babel to transform your JavaScript files.
 
-Importing Modules in Tests
-You can use the import syntax directly in your test files:
+5. Running Tests
+You should now be able to use import/export in your JavaScript files, and Jest will be able to run your tests.
 
-import { myFunction } from './myModule';
+Run your tests using:
 
-test('myFunction works correctly', () => {
-  expect(myFunction()).toBe(true);
-});
-
-Running Jest
-Ensure that your Node.js version supports ES modules natively (Node.js 14+). You can run Jest as usual:
-
-npm jest
-
+npm test
+Summary
+Babel: Handles the transpilation of ES module syntax (and other JavaScript features) for Node.js.
+Jest: Automatically integrates with Babel through babel-jest to support testing with modern JavaScript syntax.
+With this setup, you can use import/export in your code, and Jest will run your tests without issues.
 
 ____________________________________
 
 further considerations, lets say you have a database that is being used. You can't import the database because it's to much info. So you want to mock it, or pretend you have a database. 
 
 because of this, you need to think about how you write the functions. To make functions better you should consider it's use for many things not just one. In the case of a database, you should allow that info to be provided and inject it into the function instead of have it coded to deal with one single database.
+
+____________________________________
+
+DESCRIBE()
+
+In Jest, the describe() function is used to group related test cases together. It helps organize tests into logical sections or test suites, making the test output more readable and the tests easier to manage.
+
+Key Points About describe()
+Grouping: describe() allows you to group related tests. For example, you might have a describe() block for a specific function or feature, with multiple test cases (it or test functions) inside that block.
+
+Nesting: You can nest describe() blocks inside one another, which helps further organize tests, especially in complex projects. For example, you might have a top-level describe() for a component and nested describe() blocks for different aspects of that component.
+
+Test Suite: The describe() function itself does not run any tests; it simply creates a suite of tests that can be run together. The tests inside a describe() block will be executed in the order they are defined.
+
+Example Usage
+
+describe('Array', () => {
+  describe('push()', () => {
+    it('should add an element to the end of the array', () => {
+      const arr = [];
+      arr.push(1);
+      expect(arr).toEqual([1]);
+    });
+  });
+
+  describe('pop()', () => {
+    it('should remove the last element from the array', () => {
+      const arr = [1];
+      arr.pop();
+      expect(arr).toEqual([]);
+    });
+  });
+});
+
+
+Output Structure
+When you run tests, the output will be structured to reflect the describe() blocks:
+
+
+PASS  ./array.test.js
+  Array
+    push()
+      ✓ should add an element to the end of the array (5ms)
+    pop()
+      ✓ should remove the last element from the array (3ms)
+Benefits
+Organization: Keeps related tests together and logically organized.
+Readability: The test output is easier to read, with clear sections that show which parts of your code are being tested.
+Isolation: Helps to isolate different areas of your tests, making it easier to identify where failures are occurring.
+In summary, describe() in Jest is an essential tool for structuring and organizing your test suites.
+
+
+____________________________________
+
+ASSERTIONS(number)
+
+The expect.assertions(number) function in Jest is used to ensure that a certain number of assertions are called within a test. This is particularly useful for asynchronous tests to confirm that they are executed correctly.
+
+Here’s how it works:
+
+Purpose: It verifies that a specific number of assertions were executed in the test. This helps ensure that your test logic is being reached and that the correct assertions are made.
+Usage: Typically used in tests that involve asynchronous operations to confirm that the expected assertions are executed even if the test might fail silently if assertions are not made.
+Example of Using expect.assertions()
+Here’s how you can use expect.assertions() in both synchronous and asynchronous tests:
+
+Synchronous Test Example
+
+test('checks if the number of assertions matches', () => {
+  expect.assertions(1);
+  expect(true).toBe(true);
+});
+In this example, Jest will ensure that exactly one assertion is called within the test. If no assertions or more than one assertion are made, the test will fail.
+
+Asynchronous Test Example
+When dealing with asynchronous code, you can use expect.assertions() to ensure that assertions are called after the asynchronous operation:
+
+import { getPeoplePromise } from './yourModule'; // Adjust the import path
+
+test('fetches people data and returns the correct structure', async () => {
+  expect.assertions(2); // Expecting 2 assertions
+
+  const data = await getPeoplePromise();
+
+  expect(data).toHaveProperty('count');
+  expect(data).toHaveProperty('results');
+});
+
+In this asynchronous test example:
+
+expect.assertions(2) indicates that you expect exactly two assertions to be called.
+Jest will ensure that both expect statements are executed.
+When to Use expect.assertions()
+Asynchronous Tests: Ensures that assertions within async functions or promises are properly executed.
+Debugging: Helps in debugging if you suspect that some code paths are not being executed or if assertions are not reached.
+Using expect.assertions() provides additional confidence that your test cases are fully covering the expected logic.
+
+
+____________________________________
+Mocks
+
+In Jest, a mock is a way to simulate and control the behavior of functions or modules for testing purposes. Mocks allow you to isolate the unit of code you are testing from its dependencies, making it easier to test different scenarios and outcomes without relying on the actual implementations.
+
+Types of Mocks in Jest
+Function Mocks:
+
+jest.fn(): Creates a new mock function. You can specify how it should behave, track its calls, and configure its return values or implementations.
+
+const mockFunction = jest.fn();
+mockFunction.mockReturnValue('default');
+mockFunction('arg1', 'arg2');
+console.log(mockFunction.mock.calls); // [[ 'arg1', 'arg2' ]]
+Module Mocks:
+
+jest.mock(): Mocks an entire module. This is useful for replacing dependencies with mocks so that the tests don’t rely on the actual implementations.
+
+// Assume 'myModule.js' exports a function `fetchData`
+jest.mock('./myModule', () => ({
+  fetchData: jest.fn(() => Promise.resolve('mocked data')),
+}));
+
+const { fetchData } = require('./myModule');
+
+test('fetchData returns mocked data', async () => {
+  expect(await fetchData()).toBe('mocked data');
+});
+
+Spy Mocks:
+
+jest.spyOn(): Creates a mock function for an existing method of an object. This allows you to monitor and control calls to the method.
+
+const myObject = {
+  myMethod: () => 'original implementation',
+};
+
+jest.spyOn(myObject, 'myMethod').mockReturnValue('mocked implementation');
+
+test('myMethod returns mocked implementation', () => {
+  expect(myObject.myMethod()).toBe('mocked implementation');
+});
+
+Common Mock Features
+Mock Implementations: You can provide specific implementations for how the mock should behave using methods like .mockImplementation() or .mockReturnValue().
+
+const mockFunction = jest.fn();
+mockFunction.mockImplementation((x) => x + 1);
+console.log(mockFunction(1)); // 2
+
+Tracking Calls: Jest tracks the calls made to mock functions, including the arguments passed and the return values.
+
+
+const mockFunction = jest.fn();
+mockFunction('test');
+console.log(mockFunction.mock.calls); // [['test']]
+
+Resetting Mocks: You can reset or clear mocks to ensure they don’t retain state between tests using .mockReset() or .mockClear().
+
+
+const mockFunction = jest.fn();
+mockFunction('test');
+mockFunction.mockReset();
+console.log(mockFunction.mock.calls); // []
+
+Summary
+jest.fn(): Creates a mock function.
+jest.mock(): Mocks entire modules.
+jest.spyOn(): Mocks methods of objects.
+Mocks are crucial for testing in isolation, ensuring that tests are predictable and that the code being tested is not affected by external dependencies or the implementation details of other modules.
+
+
+____________________________________
+
+Spies
+
+In Jest, spies are functions that allow you to track and assert how functions are called. They are particularly useful for:
+
+Checking if a function was called.
+Verifying how many times a function was called.
+Inspecting the arguments with which a function was called.
+Confirming if a function was called with the correct context or return values.
+Creating a Spy in Jest
+
+Using jest.spyOn():
+
+This method is used to create a spy on a specific method of an object.
+It allows you to track calls to the method, the arguments with which it was called, and the values it returned.
+
+const obj = {
+  method: () => 'original implementation',
+};
+
+// Create a spy on obj.method
+const spy = jest.spyOn(obj, 'method');
+
+// Call the method
+obj.method('test');
+
+// Assertions
+expect(spy).toHaveBeenCalled();
+expect(spy).toHaveBeenCalledWith('test');
+expect(spy).toHaveReturnedWith('original implementation');
+
+Using jest.fn():
+
+This method creates a new mock function that can be used as a spy.
+It does not replace existing functions but allows you to create a new function to track calls and arguments.
+
+// Create a spy function
+const spy = jest.fn();
+
+// Call the spy
+spy('arg1', 'arg2');
+
+// Assertions
+expect(spy).toHaveBeenCalled();
+expect(spy).toHaveBeenCalledWith('arg1', 'arg2');
+
+
+Common Assertions with Spies
+
+expect(spy).toHaveBeenCalled():
+
+Asserts that the spy function was called at least once.
+expect(spy).toHaveBeenCalledTimes(number):
+
+Asserts that the spy function was called a specific number of times.
+expect(spy).toHaveBeenCalledWith(arg1, arg2, ...):
+
+Asserts that the spy function was called with specific arguments.
+expect(spy).toHaveReturnedWith(value):
+
+Asserts that the spy function returned a specific value.
+expect(spy).toHaveBeenLastCalledWith(arg1, arg2, ...):
+
+Asserts that the spy function was last called with specific arguments.
+Example in Context
+
+Here's a practical example using jest.spyOn() to test a class method:
+
+class MyClass {
+  method() {
+    return 'real value';
+  }
+}
+
+test('spying on a class method', () => {
+  const instance = new MyClass();
+  const spy = jest.spyOn(instance, 'method');
+
+  instance.method('test');
+
+  expect(spy).toHaveBeenCalled();
+  expect(spy).toHaveBeenCalledWith('test');
+  expect(spy).toHaveReturnedWith('real value');
+
+  spy.mockRestore(); // Restore the original implementation
+});
+
+Restoring Original Implementation
+
+When you use jest.spyOn(), it temporarily replaces the original method. You might want to restore the original method after your test using:
+
+
+spy.mockRestore();
+
+Using Spies for Testing
+
+Spies are particularly useful for testing side effects and ensuring that certain functions are called correctly during unit tests. They help ensure that your code interacts with its dependencies in the expected manner.
+
+
+
+
+
+

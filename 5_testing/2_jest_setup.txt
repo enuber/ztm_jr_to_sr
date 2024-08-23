@@ -1,2 +1,68 @@
 Jest setup
 
+create react app comes with jest. Vite does not
+
+can install with 
+
+npm i jest --save-dev 
+
+in the scripts portion of the package.json file, update to the below so when you make changes it watches for those changes and runs the tests without having to type it over and over.
+
+"test" : "jest --watch *.js
+
+
+you typically name files with .test.js or can do .spec.js. you would call it based on what the file is you are testing. so app.test.js or button.test.js...etc. You can also have them in a test folder which jest will search for. 
+
+____________________________________
+when unit testing functions, you can export them and then import them into the test file since it's all just JavaScript. Shown in the files with common JS instead of import/export. 
+
+
+1. Using ES Modules (import/export)
+If your project is set up with "type": "module" and you prefer to use ES module syntax:
+
+Jest Configuration
+Jest ESM Support: Jest has experimental support for ES modules. You need to ensure that Jest is configured to work with them.
+In your package.json or Jest configuration file (jest.config.js), you can set the transform option to use Babel, which allows Jest to understand ES modules:
+
+{
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
+  }
+}
+
+You'll also need a Babel configuration (babel.config.js):
+module.exports = {
+  presets: [
+    [
+      "@babel/preset-env",
+      {
+        targets: {
+          node: "current"
+        }
+      }
+    ]
+  ]
+};
+
+Importing Modules in Tests
+You can use the import syntax directly in your test files:
+
+import { myFunction } from './myModule';
+
+test('myFunction works correctly', () => {
+  expect(myFunction()).toBe(true);
+});
+
+Running Jest
+Ensure that your Node.js version supports ES modules natively (Node.js 14+). You can run Jest as usual:
+
+npm jest
+
+
+____________________________________
+
+further considerations, lets say you have a database that is being used. You can't import the database because it's to much info. So you want to mock it, or pretend you have a database. 
+
+because of this, you need to think about how you write the functions. To make functions better you should consider it's use for many things not just one. In the case of a database, you should allow that info to be provided and inject it into the function instead of have it coded to deal with one single database.

@@ -1,0 +1,24 @@
+
+installs the compiler globally, will also update to latest version
+
+npm install -g typescript
+
+version 
+tsc -v
+
+
+a typscript file just needs to end with .ts 
+
+create simple ts file and then run to compile it, will spit out a .jsz
+tsc <filename.ts> 
+
+so you don't have to type the tsc filename all the time you can do 
+
+tsc --init
+
+this will give you a tsconfig.json file, you can make changes to it and, there is doc on the file on the ts website
+
+
+beyond this, to actually watch a specfic file to do the outputing
+
+tsc <filename.ts> --watch

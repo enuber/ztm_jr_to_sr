@@ -1,0 +1,21 @@
+Typscript
+
+static type checking. Makes JS which is a dynamically typed language a static based language.
+
+Dynamic vs Static typing
+
+In a static language you have to define what the type of the variable before using them.
+
+Dynamically typed languages aren't bound to a specific type. Can define and use at the same time and, JS assigns what type it is during runtime
+
+
+Strong vs weak typing
+
+JS is a weakly type language. It allows you to for example add a string and number where there is type coercion. 
+
+Strong type langauge you can't add a string to a number.
+
+
+Static Typing in JS
+
+TS is a superset of JS. TS just adds a few features on top of JS and, it runs through a TS compiler to give us JS. 

@@ -1,0 +1,39 @@
+SPA vs Server Side Rendering
+
+normal websites have separate pages for things like index.html, about.html, purchase.html and you link between pages
+
+SPA - single page application, you just reload the parts of the page you need to rather than the whole page. More like an application then a website. Avoid constant requests for full page. 
+
+With SPA - more JS is sent to the client because it takes care of more. SPA is client side rendering.
+
+
+Client Side Rendering vs Server Side Rendering
+
+CSR - get a bare bones HTML that starts to get rendered, once HTML arrives we then ask for CSS and JS files, once all of this is loaded and ready then the page becomes interactive and can be used. Pro - once loaded things happen faster because not requesting for more things until a new page is gone too. 
+
+
+SSR - Renders alot faster on initial request. Server responds with fully rendered page. But interactivity still takes a while as still needs to get JS, load the JS etc... and then becomes interactive. 
+
+
+____________________
+
+CSR vs SSR pt 2
+
+CSR 
+PRO - rich interactions, faster response, web applications
+CONS - low SEO potential, longer initial load
+
+
+SSR
+PRO - Static sites, SEO, Initial Page load
+CONS - Full Page Reloads, SLower page rendering, # requests to server
+
+
+____________________
+
+SSR React Libraries
+
+Gatsby
+
+Next.js - they handle webpack, react, router, reactDOM, code splitting, SEO etc... out of the box things are set up for you.
+

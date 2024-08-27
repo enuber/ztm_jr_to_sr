@@ -50,6 +50,45 @@ console.log(sizeName); // Displays 'Medium'
 let sizeName2: number = Size.Small;
 console.log(sizeName2); // Displays '1'
 
+// Enums are a way of giving friendly names to sets of numeric values. They can make code more readable and less error-prone.
+enum Color {
+  Red,
+  Green,
+  Blue,
+}
+let c: Color = Color.Green;
+
+// By default, Red is 0, Green is 1, and so on. You can also manually set values.
+enum Color2 {
+  Red = 1,
+  Green = 2,
+  Blue = 4,
+}
+let d: Color2 = Color2.Green;
+
+enum Days {
+  Sunday,
+  Monday,
+  Tuesday,
+  Wednesday,
+  Thursday,
+  Friday,
+  Saturday,
+}
+
+function classifyDay(day: Days): string {
+  switch (day) {
+    case Days.Sunday:
+    case Days.Saturday:
+      return 'Weekend';
+    default:
+      return 'Weekday';
+  }
+}
+
+console.log(classifyDay(Days.Monday));
+console.log(classifyDay(Days.Saturday));
+
 // _____________________________________________
 
 // Any - not something you should use, will allow any type to be used. Useful for converting code from JS to TS quickly where not sure what to do with something. Or a complicated function.
@@ -83,9 +122,12 @@ let error = (): never => {
 // _____________________________________________
 
 // Type Assertions: allows you to overide a type.
-let ohhithere: any = 'OH HI THERE';
+let someValue: any = 'This is a string';
+let strLength: number = (<string>someValue).length;
+// Or using as-syntax
+let strLengthAs: number = (someValue as string).length;
 
-let strLength: number = (ohhithere as string).length;
+// In general, type assertions should be avoided if possible. But sometimes it is impossible, especially when dealing with JSON serialization and deserialization from a server, for example.
 
 // _____________________________________________
 
@@ -169,6 +211,38 @@ let lion = new Animal('Rawwr');
 //Union Type - like an OR statement, allows it to be one or another
 let confused: string | number = 'hello';
 
+// Discriminated unions, also known as tagged unions or algebraic data types, are a way to combine types with a single shared field, which is typically a literal type, used to discriminate between the other types.
+
+// The kind variable of a Circle object must be equal to the literal "circle". This is how TypeScript knows how to determine between the objects during the compilation process.
+
+interface Circle {
+  kind: 'circle';
+  radius: number;
+}
+
+interface Square {
+  kind: 'square';
+  sideLength: number;
+}
+
+type Shape = Circle | Square;
+
+const shapeFn = (shape: Shape) => {
+  // we cannot use shape.radius or shape.sideLength here
+  // since the compiler doesn't know what type shape is yet
+
+  switch (shape.kind) {
+    case 'circle':
+      // here shape is of type Circle
+      context.drawCircle(shape.radius);
+      break;
+    case 'square':
+      // here shape is of type Square
+      context.drawSquare(shape.sideLength);
+      break;
+  }
+};
+
 // _____________________________________________
 
 //In TypeScript, there are several places where type inference
@@ -177,3 +251,158 @@ let confused: string | number = 'hello';
 let x = 3;
 // automatimally detects x is a number.
 // x = 'hello' // will throw an error because it is inferred x should be a number
+
+// _____________________________________________
+
+// Generics
+// Generics provide a way to make components work over a variety of types rather than a single one.
+
+function updateProperty<T>(obj: T, key: keyof T, value: any): T {
+  obj[key] = value;
+  return obj;
+}
+
+console.log(updateProperty({ name: 'Alice', age: 28 }, 'name', 'Bob'));
+// Output: { name: "Bob", age: 28 }
+
+// In the function updateProperty<T>, T is a generic type parameter. Generics allow you to create functions, classes, or interfaces that can work with different data types while providing type safety. Here's a breakdown of what T does in this context:
+
+// Understanding T in updateProperty
+// Generic Type Parameter:
+
+// T is a placeholder for a type that will be provided when the function is called. The actual type of T is determined based on the arguments passed to the function.
+// For example, if you pass an object of type { name: string; age: number } to updateProperty, TypeScript will infer that T is { name: string; age: number }.
+// Usage of T:
+
+// The function updateProperty uses T to type the obj parameter. This means that obj can be of any type, but it must be consistent within a single call to the function.
+// key: keyof T means that key must be one of the keys of the object type T.
+// value: any indicates that the value can be of any type. However, this is not ideal because it doesn't enforce that the type of value matches the type of the property being updated.
+// Type Inference:
+
+// When you call updateProperty({name: "Alice", age: 28}, "name", "Bob"), TypeScript infers that T is { name: string; age: number }.
+// keyof T becomes "name" | "age", meaning the key argument must be either "name" or "age".
+// The function then updates the property name on the object to "Bob".
+
+// T: { name: string; age: number }
+// keyof T: "name" | "age"
+// obj: { name: "Alice", age: 28 }
+// key: "name" (a key of T)
+// value: "Bob" (the new value to assign to the name property)
+
+// The current implementation allows value to be of any type, which could cause issues if the value type doesn’t match the type of the property being updated. You can improve the function by ensuring that value matches the type of the property:
+
+function updateProperty2<T, K extends keyof T>(obj: T, key: K, value: T[K]): T {
+  obj[key] = value;
+  return obj;
+}
+
+// Now, value must be of the same type as the property identified by key. This adds an extra layer of type safety.
+
+// generic function named wrapInArray that takes an argument of any type and returns an array of that type containing the provided value.
+function wrapInArray<T>(value: T): T[] {
+  return [value];
+}
+
+console.log(wrapInArray(42));
+
+// _____________________________________________
+
+// Conditional Types
+
+// Conditional types help in expressing types in relation to other types, particularly in generic types. It has the syntax T extends U ? X : Y.
+
+type TypeName<T> = T extends string
+  ? 'string'
+  : T extends number
+  ? 'number'
+  : T extends boolean
+  ? 'boolean'
+  : 'object';
+
+//   How It Works:
+// First Condition: T extends string
+
+// If T is a string, then TypeName<T> resolves to "string".
+// Second Condition: T extends number
+
+// If T is not a string but is a number, then TypeName<T> resolves to "number".
+// Third Condition: T extends boolean
+
+// If T is neither a string nor a number, but is a boolean, then TypeName<T> resolves to "boolean".
+// Final Fallback: "object"
+
+// If T is none of the above (i.e., not a string, number, or boolean), then TypeName<T> resolves to "object".
+
+// Example Usage
+type T1 = TypeName<string>; // "string"
+type T2 = TypeName<number>; // "number"
+type T3 = TypeName<boolean>; // "boolean"
+type T4 = TypeName<{}>; // "object"
+type T5 = TypeName<[]>; // "object"
+type T6 = TypeName<null>; // "object"
+type T7 = TypeName<undefined>; // "object"
+
+// example type guards using type assertion
+
+function logType<T>(value: T): TypeName<T> {
+  if (typeof value === 'string') {
+    return 'string' as TypeName<T>;
+  } else if (typeof value === 'number') {
+    return 'number' as TypeName<T>;
+  } else if (typeof value === 'boolean') {
+    return 'boolean' as TypeName<T>;
+  } else {
+    return 'object' as TypeName<T>;
+  }
+}
+
+// _____________________________________________
+
+// Index Types
+// Indexable types in TypeScript are types that can be indexed by strings or numbers, allowing you to define types for objects whose keys are not known in advance.
+
+// note index is just a placeholder can be any valid identifier like key or prop
+// the :string after the [] defines the value type
+interface ObjName {
+  [index: string]: string;
+}
+
+// Common Use Cases
+// Dictionaries/Maps: When you need to create a dictionary-like structure where keys can be dynamically added.
+
+// Dynamic Object Properties: When you're working with objects whose properties are not known until runtime.
+
+interface NumberDictionary {
+  [index: number]: string;
+}
+
+const numberDict: NumberDictionary = {
+  0: 'Zero',
+  1: 'One',
+  2: 'Two',
+};
+
+console.log(numberDict[1]); // Output: "One"
+
+interface MyDictionary {
+  // Your index signature here
+  [key: string]: string | number;
+}
+
+function getValueFromDict(
+  key: string,
+  dict: MyDictionary
+): string | number | undefined {
+  // Your code here
+  return dict[key];
+}
+
+const dict = { name: 'Alice', age: 30 };
+console.log(getValueFromDict('name', dict));
+
+// _________________________________________________
+
+// Literal Types
+// Literal types allow you to specify the exact value an object must have. In many cases, they can be combined with union types to express a finite set of possible values.
+
+type ButtonSizes = 'small' | 'medium' | 'large';

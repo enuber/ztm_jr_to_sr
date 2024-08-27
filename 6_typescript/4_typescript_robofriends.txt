@@ -1,0 +1,78 @@
+Notes on how it was done in video, but this is also based on old code so not sure it's still relevent
+
+// in index.tsx
+
+// this says that this is an HTML Element so don't worry about it. It is an interface
+document.getElementById('root') as HTMLElement
+
+
+// in app.tsx
+
+Note that you can export interface
+
+// IRobot - I is just for interface, it's a way to let poeple know so is a naming convention.
+
+export interface IRobot {
+  name: string;
+  id: number;
+  email: string;
+}
+
+// no props are in the APP file so this is empty
+interface IAppProps { 
+}
+
+interface IAppState {
+  robot: Array<IRobot>;
+  searchfield: string;
+}
+
+// standard for a class to receive props and state. So this is normal setup
+class App extend React.Component<IAppProps, IAppState> {}
+
+onSearchChange = (event: React.syntheticEvent<HTMLElement>) => {}
+
+// for Life Cycle can do :void if not returning anything
+
+
+render(): JSX.Element
+
+
+// in CardList.tsx
+
+import {IRobot} from '../containers/App';
+
+// syntax is a little different because we are destructuring. So we are going to have an object that has robots of array IRobot. So robots will havea  type of array with the interface of IRobot.
+const CardList = ({ robots}: {robots: Array<IRobot>}): void => {}
+
+// in Card.tsx
+
+interface CardStatelessProps {
+  name: string,
+  email: stirng,
+  id: number
+}
+
+// SFC stands for stateless functional component which is a type that comes with @types/react 
+const Card: React.SFC<CardStatelessProps> = ({name, email id}) => {}
+
+
+// in Scroll.tsx
+
+// we can do this because all we are doing is passing in the children props. In this case the children are JSX Elements. Don't forget that the ? just means that it may or may not be used. 
+type Props = {
+  children?: JSX.Element
+}
+
+const scroll = (props: Props) => {}
+
+
+
+// SearchBox.tsx
+
+// just using another naming convention, can do this or like above SearchBoxStatelessProps
+interface ISearchBoxProps {
+  searchChange(event: React.syntheticEvent<HTMLInputElement>): void
+}
+
+const SearchBox = ({ searchChange}: ISearchBoxProps) =>{}

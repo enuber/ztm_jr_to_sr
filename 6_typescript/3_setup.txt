@@ -1,0 +1,236 @@
+
+installs the compiler globally, will also update to latest version
+
+npm install -g typescript
+
+version 
+tsc -v
+
+
+a typscript file just needs to end with .ts 
+
+create simple ts file and then run to compile it, will spit out a .jsz
+tsc <filename.ts> 
+
+so you don't have to type the tsc filename all the time you can do 
+
+tsc --init
+
+this will give you a tsconfig.json file, you can make changes to it and, there is doc on the file on the ts website
+
+
+beyond this, to actually watch a specfic file to do the outputing
+
+tsc <filename.ts> --watch
+
+
+
+// _____________________________________________
+
+Typescript with a React project
+
+Setting up TypeScript in a React project is a straightforward process. You can either create a new React project with TypeScript or add TypeScript to an existing React project. Below are the steps for both approaches:
+
+1. Creating a New React Project with TypeScript
+You can create a new React project with TypeScript using the following commands:
+
+With Create React App (CRA):
+npx create-react-app my-app --template typescript
+
+NOTE: Available Templates
+In addition to the TypeScript template, Create React App supports various templates, which can include:
+
+--template typescript: Specifies that you want to use the TypeScript template.
+--template cra-template-pwa: Sets up a Progressive Web App (PWA) template.
+--template cra-template-redux: Configures a template with Redux.
+--template cra-template-redux-typescript: Combines Redux with TypeScript in the template.
+
+This command creates a new React project named my-app with TypeScript pre-configured.
+
+With Vite:
+npm create vite@latest my-app -- --template react-ts
+
+This command creates a new React project named my-app with TypeScript using Vite.
+
+2. Adding TypeScript to an Existing React Project
+If you have an existing React project and want to add TypeScript, follow these steps:
+
+Step 1: Install TypeScript and Related Packages
+First, you need to install TypeScript and the necessary type definitions for React and Node.js:
+
+npm install --save-dev typescript @types/node @types/react @types/react-dom
+
+Step 2: Rename Files from .js to .tsx
+Rename your JavaScript files to TypeScript files:
+
+Change .js files to .tsx for files that include JSX.
+Change .js files to .ts for regular TypeScript files.
+
+For example:
+
+App.js → App.tsx
+index.js → index.tsx
+
+Step 3: Add a tsconfig.json File
+Next, you need to create a tsconfig.json file in the root directory of your project. You can generate one by running:
+
+npx tsc --init
+
+This command creates a tsconfig.json file with the default configuration. You can modify this file based on your project’s needs.
+
+Here's a basic tsconfig.json configuration for a React project:
+
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
+}
+
+3. Updating Your Project to Use TypeScript
+With TypeScript installed and configured, your project will start recognizing TypeScript files. Here are some additional steps you might need to take:
+
+Update Imports: Ensure all your imports are correctly typed, especially when dealing with third-party libraries. You might need to install additional type definitions using @types packages.
+
+Fix Type Errors: After converting files to TypeScript, you may encounter type errors. You'll need to resolve these by specifying correct types, interfaces, or type assertions.
+
+Configure Linting and Prettier: If you use ESLint and Prettier, make sure they are configured to work with TypeScript. You might need to install additional plugins and update your .eslintrc and .prettierrc files.
+
+4. Running the Project
+After setting up TypeScript, you can start your development server as usual:
+
+npm start
+
+This will run your React project with TypeScript, and you can start writing TypeScript code in your React components.
+
+5. Build the Project
+
+To build the project for production, use:
+
+npm run build
+
+This command creates a production-ready build of your React project with TypeScript.
+
+// _____________________________________________
+
+TypeScript with Webpack not react project
+
+To add TypeScript to a Webpack project without React, you'll need to configure TypeScript and Webpack together. Below are the steps to set up TypeScript in a Webpack project:
+
+1. Install Dependencies
+First, you need to install TypeScript and the necessary Webpack loaders:
+
+
+npm install --save-dev typescript ts-loader
+
+typescript: The TypeScript compiler.
+ts-loader: A loader for Webpack to handle TypeScript files.
+If you haven't already installed Webpack and its CLI, you should also do so:
+
+npm install --save-dev webpack webpack-cli
+
+2. Create a TypeScript Configuration File
+Generate a tsconfig.json file in the root of your project. You can create it manually or generate it using:
+
+npx tsc --init
+
+Here’s a basic tsconfig.json configuration:
+
+{
+  "compilerOptions": {
+    "target": "es5",                          // Set the JavaScript target version
+    "module": "commonjs",                     // Use CommonJS module system
+    "outDir": "./dist",                       // Output directory for compiled files
+    "rootDir": "./src",                       // Root directory for source files
+    "strict": true,                           // Enable all strict type-checking options
+    "esModuleInterop": true,                  // Enable interoperability between CommonJS and ES Modules
+    "skipLibCheck": true,                     // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true  // Ensure consistent casing in filenames
+  },
+  "include": ["src"],                         // Files to include
+  "exclude": ["node_modules"]                 // Files to exclude
+}
+
+3. Configure Webpack
+Create or update your webpack.config.js file to include TypeScript support. Here’s an example configuration:
+
+const path = require('path');
+
+module.exports = {
+  entry: './src/index.ts',                  // Entry point for the application
+  output: {
+    filename: 'bundle.js',                  // Output bundle file
+    path: path.resolve(__dirname, 'dist')   // Output directory
+  },
+  resolve: {
+    extensions: ['.ts', '.js']              // Resolve these file extensions
+  },
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,                     // Apply this rule to TypeScript files
+        use: 'ts-loader',                  // Use ts-loader to handle TypeScript files
+        exclude: /node_modules/             // Exclude node_modules from being processed
+      }
+    ]
+  },
+  devtool: 'source-map'                    // Enable source maps for debugging
+};
+
+4. Create Source Files
+Create a directory named src in the root of your project and add a TypeScript file, e.g., index.ts:
+
+// src/index.ts
+const message: string = 'Hello, TypeScript with Webpack!';
+console.log(message);
+
+5. Update package.json Scripts
+Add build scripts to your package.json to easily run Webpack:
+
+{
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack --watch"
+  }
+}
+
+build: Runs Webpack to create a production build.
+start: Runs Webpack in watch mode to rebuild on file changes.
+
+6. Run Webpack
+To build your project, use:
+
+npm run build
+
+To watch for changes and rebuild automatically, use:
+
+npm start
+
+
+_____________________________________________
+
+From Course:
+
+third party libraries and how they work with TS. If using somehting like jQuery, react or some other libary...
+
+TS allows you to use declaration files, which are files that allow you to describe the shape of the code that it is written in. So you can add files that you can reference to tell TS you are also using this library, use these types that I just made up for you.
+
+
+https://definitelytyped.org/
+
+standard place to look for any types for 3rd party libraries
+
+UPDATE: npm registry now shows if there is a typescript file with the package that has the types in them. This has become more common place but, not 100%.

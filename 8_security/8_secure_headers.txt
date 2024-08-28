@@ -1,0 +1,59 @@
+Secure headers
+
+package to help with headers
+npm install helmet 
+
+
+https://helmetjs.github.io/
+
+Helmet is still widely used for managing HTTP headers in Node.js applications, especially those built with Express.js. helmet is a middleware that helps secure your Express apps by setting various HTTP headers to protect against common web vulnerabilities, such as cross-site scripting (XSS), content injection attacks, and clickjacking.
+
+
+Key Features of helmet
+Security Headers: helmet sets various security headers, including:
+
+Content-Security-Policy: Helps prevent XSS attacks by controlling which resources the browser is allowed to load.
+X-Content-Type-Options: Prevents browsers from MIME-sniffing a response away from the declared Content-Type.
+X-Frame-Options: Protects your site from clickjacking attacks by controlling whether your site can be embedded in iframes.
+Strict-Transport-Security: Forces browsers to communicate with your site over HTTPS.
+X-DNS-Prefetch-Control: Controls DNS prefetching to prevent users' data from being leaked to third-party servers.
+Modular Approach: helmet is composed of smaller middleware functions, each responsible for a specific header. You can enable or disable these middleware functions as needed.
+
+Example Usage in Express.js
+Here’s how you might use helmet in a basic Express.js application:
+
+const express = require('express');
+const helmet = require('helmet');
+
+const app = express();
+
+// Use helmet to secure HTTP headers
+app.use(helmet());
+
+app.get('/', (req, res) => {
+  res.send('Hello, world!');
+});
+
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
+
+Customizing helmet
+
+You can also customize helmet to suit your needs:
+
+// Only use specific helmet protections
+app.use(helmet({
+  contentSecurityPolicy: false,  // Disable CSP if not needed
+  frameguard: { action: 'deny' } // Customize the X-Frame-Options header
+}));
+
+Conclusion
+helmet remains a crucial tool for improving the security of your Node.js applications by setting appropriate HTTP headers. It’s simple to use and integrates seamlessly with Express.js, making it a popular choice for securing web applications.
+
+
+https://www.tutorialspoint.com/http/http_header_fields.htm
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
+
+https://code.tutsplus.com/http-the-protocol-every-web-developer-must-know-part-1--net-31177t

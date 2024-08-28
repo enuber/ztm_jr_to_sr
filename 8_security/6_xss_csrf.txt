@@ -1,0 +1,72 @@
+XSS and CSRF
+
+Cross-Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) are two common web security vulnerabilities that can affect web applications. Here’s a detailed explanation of each:
+
+Cross-Site Scripting (XSS)
+Definition: XSS is a vulnerability that allows an attacker to inject malicious scripts into web pages viewed by other users. These scripts are executed in the context of the victim's browser, which can lead to a range of security issues.
+
+Types of XSS:
+
+Stored XSS: The malicious script is permanently stored on the target server (e.g., in a database) and served to users who request the affected page.
+Reflected XSS: The malicious script is reflected off a web server, typically through a URL parameter or query string, and executed immediately.
+DOM-based XSS: The vulnerability is in the client-side code rather than the server-side code. Malicious data is manipulated in the DOM, leading to script execution.
+
+
+Impact:
+
+Theft of cookies or session tokens
+Account hijacking
+Data manipulation
+Phishing attacks
+Spread of malware
+
+Mitigation:
+
+Input Sanitization: Ensure that user input is properly sanitized and validated before being included in HTML, JavaScript, or other outputs.
+Output Encoding: Encode output data to prevent it from being interpreted as code. Use functions like htmlspecialchars() or libraries for escaping content.
+Content Security Policy (CSP): Implement CSP headers to restrict the sources from which scripts can be loaded and executed.
+Use Libraries: Utilize frameworks or libraries that automatically handle XSS protection, such as React, which escapes output by default.
+
+
+Cross-Site Request Forgery (CSRF)
+Definition: CSRF is a vulnerability that allows an attacker to trick a user's browser into making unwanted requests to a different site where the user is authenticated. This can lead to unauthorized actions being performed on behalf of the user.
+
+Mechanism:
+
+User Authentication: The user is authenticated on a site (e.g., logged into a banking application).
+Crafted Request: The attacker creates a malicious web page or email that makes requests to the target site using the user's credentials.
+Request Execution: When the user interacts with the attacker’s page or email, the malicious request is sent with the user's authentication cookies or tokens, potentially performing actions on their behalf.
+
+Impact:
+
+Unauthorized actions (e.g., transferring funds, changing account settings)
+Compromised user accounts
+Unintended data changes
+
+
+Mitigation:
+
+CSRF Tokens: Include a unique, unpredictable token in each request that is validated on the server. This token should be associated with the user’s session and checked for each request.
+SameSite Cookies: Set the SameSite attribute on cookies to restrict them from being sent in cross-site requests. For example, SameSite=Strict or SameSite=Lax.
+Referer Header Validation: Check the Referer header to ensure requests originate from the expected source, though this is not as reliable as CSRF tokens.
+User Interaction Confirmation: For sensitive actions, require additional user interaction (e.g., entering a password or confirmation code).
+
+
+Both XSS and CSRF are critical vulnerabilities that require careful consideration and implementation of security best practices to protect web applications and their users.
+
+
+in server.JavaScript example
+app.get('/', (req, res)=> {
+  res.set({'Content-Security-Policy': 'script-src 'self' 'https://apis.google.com'});
+});
+
+
+https://www.hacksplaining.com/lessons/xss-stored
+
+https://www.hacksplaining.com/lessons/csrf
+
+
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies

@@ -1,0 +1,4 @@
+Don't Trust Anyone
+
+ratelimiter package
+limits the amount of requests made so you don't get bombarded.

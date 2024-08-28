@@ -1,0 +1,17 @@
+Authenitication
+
+make sure that the person on the other is who they say they are. Like using username/passwords. Have to manage their session. 
+
+cookie based Authenitication
+1. post/ Autheniticate username and passwords
+2. send a response that is okay and set a cookie
+3. further requests during the session are good with the session cookie, deserialize session
+
+
+token based
+1. post/ Autheniticate username and passwords
+2. send a response that is returned with a token
+3. use the token for further request, validate token and send info back
+
+
+https://www.hacksplaining.com/lessons

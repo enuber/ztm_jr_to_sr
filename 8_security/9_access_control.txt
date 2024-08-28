@@ -1,0 +1,30 @@
+Access Control
+
+Having restrictions on what authenticated users can do or not.
+
+give the least amount of privledge as possible.
+
+
+CORS - Cross Origin Resource Sharing
+
+I don't have access for you to access the server is what it is saying
+
+
+If you set to allow CORS you are saying it's okay to have access. Need to give access only to those you trust.
+
+https://www.npmjs.com/package/cors
+
+
+// can whitelist who can acccess
+var whitelist = ['http://example1.com', 'http://example2.com']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+app.use(cors(corsOptions));

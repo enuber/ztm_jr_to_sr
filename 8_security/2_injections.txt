@@ -1,0 +1,33 @@
+Injections - most common attacks. Means injecting code into another piece of code. We receive code from another user or third party that tries to change our code. SQL injection is very common.
+
+
+// create a table
+CREATE TABLE sqlinjection {
+  id serial PRIMARY KEY,
+  email text UNIQUE NOT NULL
+}
+
+//insert into the table
+INSERT INTO sqlinjection (email) VALUES ('lol');
+
+will give in our table
+
+1 lol
+
+// injection, it mimics above but after the insertion of no value, the ; is then followed by more code that says DROP TABLE and this will cause the table to be gone. the -- is for comments 
+INSERT INTO sqlinjection (email) VALUES (; DROP TABLE sqlinjection; --);
+
+// another one...for passwords
+// this means that check to see if the password mathches an empty string or if 1=1 which is true which could mean you can log into an account without a password.
+if checking to see if passowrds match, use ('' or 1=1 --)
+
+
+// how to handle
+
+sanitize your input - like removing html tags being input, or changing anything entered to a textNode instead of using innerHTML
+
+parametrize queries
+
+knex.js or other ORMS
+
+https://www.hacksplaining.com/lessons/sql-injection

@@ -1,0 +1,48 @@
+https://nextjs.org/docs/getting-started/installation
+
+npx create-next-app@latest
+
+or
+
+mkdir directoryname
+cd directoryname
+npm init -y
+npm install next@latest react@latest react-dom@latest
+
+in package.json
+
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  }
+}
+
+then 
+npm run dev
+
+need to have an app folder
+
+inside of it by making new folders it creates routes
+
+ex: 
+
+app/
+├── about/
+│   ├── layout.tsx
+│   └── page.tsx
+└── layout.tsx
+└── page.tsx
+
+if you make a page.js or .tsx file it will auto create the layout file
+
+Notes:
+
+in the app layout, you can define the layout with a head, footer and the body is where the children go. When you code in page.js/tsx that is what will be shown as the child. No need to import react etc as it's all covered behind the scenes. Just has to be exported.
+
+______________________________
+dynamic apps with next.js
+
+can use fetch as you normally would. 

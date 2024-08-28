@@ -1,0 +1,6 @@
+HTTPS Everywhere
+
+need to have certificates on your site. SSL/TLS certificates
+
+https://letsencrypt.org/
+

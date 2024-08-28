@@ -1,0 +1,11 @@
+3rd party Libraries
+libraries you add to your projects. Need to make sure it's a libary you can trust and is secure. 
+
+go to their github page and check their stars and how often they've been forked and downloaded. Use well known libraries and packages. 
+
+
+
+
+npm audit and npm audit fix
+
+

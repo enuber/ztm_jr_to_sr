@@ -1,0 +1,22 @@
+Logging
+
+logging is about getting information from your system as to what is happening. Want to understand how people are using the site and one of the biggest security issues is something called insufficient logging. Allows attackers to attack systems while not being detected. They can tamper, extract or destroy data. 
+
+// NOTE: logs only tell us after something has happened. So need to be checking logs as well. Need to know what is going on so need info you actually need not to much info. 
+
+
+
+Winston and Morgan are still widely used libraries in the Node.js ecosystem, and they continue to be popular choices for logging and HTTP request logging, respectively. Here’s a brief overview of each:
+
+Winston
+Purpose: Winston is a versatile logging library for Node.js. It allows you to log messages with various levels (info, error, debug, etc.) and supports multiple transport mechanisms (console, file, HTTP, etc.).
+Usage: It’s commonly used for logging application events, errors, and debugging information. Its flexibility makes it suitable for various logging needs in both development and production environments.
+Current Status: Winston is actively maintained and has a large user base. It’s widely recommended for advanced logging configurations in Node.js applications.
+
+Morgan
+Purpose: Morgan is an HTTP request logger middleware for Node.js, often used with Express.js. It logs details of HTTP requests, such as method, URL, response time, and status code.
+Usage: It’s useful for monitoring and debugging HTTP requests and responses, especially in web applications. It helps in analyzing traffic patterns and diagnosing issues with incoming requests.
+Current Status: Morgan is also actively maintained and widely used in the Node.js community, especially with Express.js applications.
+Both libraries are well-regarded and continue to be relevant for modern Node.js applications. They provide essential functionality for logging and monitoring and are often included in production-grade setups. If you are starting a new project or maintaining an existing one, these libraries are still good choices for their respective purposes.
+
+

@@ -1,0 +1,82 @@
+DOCKER COMPOSE (NOTE: Indentation matters)
+Docker Compose is a tool that allows you to define and manage multi-container Docker applications. It is particularly useful when you need to run multiple services that work together (like a web server, a database, etc.). If you're only dealing with a single service, a Dockerfile might be sufficient, but for multi-service setups, Docker Compose simplifies the process.
+
+Docker Compose Basics
+
+docker-compose.yml:
+
+The docker-compose.yml file is where you define your services. Each service represents a container. You specify the build context, images, volumes, ports, and any other configuration needed for each service.
+
+Example:
+
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+
+
+Build with Compose:
+
+If you have defined your service to build from your own Dockerfile (rather than pulling from a default image like node:18), you need to build it.
+Command: docker-compose build
+You must run this command whenever you make changes to your Dockerfile or dependencies.
+
+
+Run Services:
+
+To run your services, you can use:
+Command: docker-compose up
+This will start all the services defined in the docker-compose.yml file.
+
+
+Stop/Take Down Services:
+
+To stop and remove the containers, networks, and volumes created by docker-compose up:
+Command: docker-compose down
+
+
+Rebuild and Run:
+
+If you want to rebuild your images and run the services in one command:
+Command: docker-compose up --build
+
+This command will:
+Rebuild any images associated with your services.
+Start the containers after rebuilding.
+Recreate any running containers to reflect the latest changes.
+
+
+Summary
+
+Use Docker Compose when managing multiple services that work together in a Dockerized environment.
+Build your images with docker-compose build after changes.
+Run your services with docker-compose up.
+Stop services with docker-compose down.
+Rebuild and run with docker-compose up --build when you want to ensure all changes are reflected in your containers.
+
+
+
+
+
+docker-compose run: For running a one-time command in a container based on a service, and it stops the container once the command completes.
+
+docker-compose up: For bringing up all services defined in the docker-compose.yml file and keeping them running as long as needed.
+
+Volumes - allow us to connect our files to the container so that when we make a change in them they are seen by the container and updated without having to rebuild over and over.
+
+
+Other things you can do
+
+run in the background
+docker-compose up -d
+
+then run this to get the bash command line for the container
+docker-compose exec smart_brain_api bash

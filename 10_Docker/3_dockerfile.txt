@@ -1,0 +1,81 @@
+make sure logged in (note username password stored in chrome)
+docker login
+
+docker logout
+
+// docker file reference
+https://docs.docker.com/reference/dockerfile/#usage
+
+
+
+Docker Commands Overview
+
+1. Building an Image
+
+Command: docker build -t my-node-app .
+
+Explanation:
+This command builds a Docker image from a Dockerfile in the current directory (.).
+The -t flag tags the image with a name (my-node-app).
+
+
+2. Running a Container
+
+Interactive Bash:
+Command: docker run -it my-node-app
+
+Explanation:
+This runs the container interactively (-it), giving you access to a bash shell inside the container.
+You can type commands into this shell. To exit, type exit.
+
+Background Process:
+
+Command: docker run -it -d my-node-app
+
+Explanation:
+Runs the container in the background (-d) while still allowing interaction.
+
+Specific Port Number:
+
+Command: docker run -it -p 3000:3000 my-node-app
+
+Explanation:
+Maps port 3000 on your host to port 3000 on the container (-p 3000:3000).
+After starting, you'll need to run npm start inside the bash shell to start the application.
+
+
+3. Managing Containers
+Check Running Containers:
+
+Command: docker ps
+
+Explanation:
+Lists all running containers.
+
+Accessing a Running Container:
+Command: docker exec -it containerID bash
+
+Explanation:
+Starts an interactive bash session in a running container specified by containerID.
+
+Stopping a Container:
+Command: docker stop containerID
+
+Explanation:
+Stops a running container specified by containerID.
+
+
+4. Dockerfile Directives
+
+Setting the Working Directory:
+Directive: WORKDIR /user/src/appname
+
+Explanation:
+Sets the working directory inside the container. All subsequent commands will be run in this directory.
+
+Copying Files:
+Directive: COPY ./ ./
+
+Explanation:
+Copies files from your host machine (first ./, referring to the current directory) to the specified directory inside the container (second ./ referring to the working directory).
+You can specify files or directories to copy specific content.

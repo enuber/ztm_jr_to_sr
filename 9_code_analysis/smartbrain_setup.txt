@@ -1,0 +1,138 @@
+// project setup
+1 in smartbrain_api do the npm start to start the api at localhost:3000
+2 in main smartbrain files do the npm start and say yes in terminal to start the environment at localhost:3001
+
+// may have to do...start or stop
+brew services start/stop postgresql
+
+// also you can do
+psql postgres://eriknuber:shannow14@localhost:5432/smart-brain
+psql postgres://owner:password@location:port/nameofdatabase
+
+//login for smartbrains for quicker access without having to register
+hey@gmail.com
+hey
+
+// created a smart-brain database in the terminal with 
+createdb 'smart-brain'
+// in pgAdmin 4 GUI
+server is already set to go
+pswd: shannow14
+
+// to connect the server to the database.
+https://knexjs.org/guide/
+
+this gets installed into the server (smarbrain_api)
+
+npm install knex
+
+knex.js - works with postgres, mssql, mysql, mariadb, sqlite3 and oracle
+
+along with knex you have to install the appropriate database.
+in our case it is pg for postgreSQL
+
+npm install pg 
+
+
+once installed in the server than you import it and follow along with the configuration options.
+
+now you can test your conection with simple query.
+
+console.log(db.select('*').from('users'));
+
+
+//this alone gives us a promise, so you can attach a .then() to do something after
+// here we get our users back. In this case as it's set up we get back []
+db.select('*').from('users').then(data=>console.log(data));
+
+
+// working with this altogether...can use postman to do requests like test register. Will see in body what you are sending, and the response underneath. When that is working as expected, can also test from the front end. Within either the terminal or pgAdmin you can use SELECT * FROM table_name; To see the list of users and see whats been added.
+
+
+
+-------------------------------------------------------
+// think out how to build the tables 
+
+here is the user table
+
+CREATE TABLE users (
+  id serial PRIMARY KEY,
+  name VARCHAR(100),
+  email text UNIQUE NOT NULL,
+  entries BIGINT DEFAULT 0,
+  joined TIMESTAMP NOT NULL
+);
+
+
+CREATE TABLE login (
+  id serial PRIMARY KEY,
+  hash VARCHAR(100) NOT NULL,
+  email text UNIQUE NOT NULL
+);
+
+
+______________________________________________
+
+With the register function because we need data to go into two databases have to do something different. use "transactions" in knex.
+
+You create a transaction when you have to do more two things or more. You use the trx object instead of the db.
+
+here we INSERT info we needed INTO table, it RETURNING the email, we use that email which we changed the name of to loginemail and, then we used another trx transaction where we access the users TABLE and we INSERT the correct info into the users table. We then get a resonpse back of the user with this data, but not the login table data. 
+
+In order for this to all be added we have to then COMMIT it and, we use the catch to ROLLBACK if there was a problem.
+
+app.post('/register', (req, res) => {
+  const { email, name, password } = req.body;
+  const hash = bcrypt.hashSync(password);
+  db.transaction((trx) => {
+    trx
+      .insert({
+        hash: hash,
+        email: email,
+      })
+      .into('login')
+      .returning('email')
+      .then((loginemail) => {
+        return trx('users')
+          .returning('*')
+          .insert({
+            email: loginemail[0].email,
+            name: name,
+            joined: new Date(),
+          })
+          .then((user) => res.json(user[0]));
+      })
+      .then(trx.commit)
+      .catch(trx.rollback);
+  }).catch((err) => res.status(400).json('unable to register'));
+});
+
+NOTE - below is updated with async await, 
+
+app.post('/register', async (req, res) => {
+  const { email, name, password } = req.body;
+  const hash = bcrypt.hashSync(password);
+
+  try {
+    await db.transaction(async (trx) => {
+      const loginEmail = await trx('login')
+        .insert({
+          hash: hash,
+          email: email,
+        })
+        .returning('email');
+
+      const user = await trx('users')
+        .returning('*')
+        .insert({
+          email: loginEmail[0].email,
+          name: name,
+          joined: new Date(),
+        });
+
+      res.json(user[0]);
+    });
+  } catch (err) {
+    res.status(400).json('unable to register');
+  }
+});

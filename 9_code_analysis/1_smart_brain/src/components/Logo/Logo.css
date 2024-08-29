@@ -1,0 +1,38 @@
+:root {
+  --default-stripe-color: #ff5edf;
+  --default-stripe-bg-color: #04c8de;
+}
+
+.parallax-effect-glare-scale {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 125px;
+  height: 125px;
+  background-color: var(--default-stripe-bg-color);
+  border: 3px solid black;
+  border-radius: 20px;
+  transform-style: preserve-3d;
+}
+
+.parallax-effect-glare-scale .inner-element {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-style: italic;
+  color: white;
+  transform: translateZ(60px);
+}
+
+.background-stripes {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--default-stripe-color),
+    var(--default-stripe-color) 35px,
+    var(--default-stripe-bg-color) 35px,
+    var(--default-stripe-bg-color) 70px
+  );
+}

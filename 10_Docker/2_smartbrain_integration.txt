@@ -1,0 +1,36 @@
+Need to start by building an image at the root level. Needs to be called Dockerfile. 
+
+1. Add node
+go to docker hub to find the version of node you want to run based on the version you have on your computer. 
+
+Choose the Right Image Version
+Node.js images come in various versions and configurations. Here’s how to choose:
+
+Tags: Each image version is identified by a tag. Common tags include:
+
+node:latest - The latest stable version of Node.js.
+node:<version> - A specific version, like node:18 or node:16.
+node:<version>-alpine - A smaller, lightweight version based on the Alpine Linux distribution.
+node:<version>-slim - A slimmer version with fewer dependencies, making the image smaller in size.
+
+LTS vs. Current:
+LTS (Long-Term Support) versions are stable and receive maintenance updates for a longer period.
+Current versions include the latest features but are updated more frequently and might not be as stable.
+
+Alpine vs. Debian:
+Alpine images are smaller and faster but might have compatibility issues with some Node.js packages.
+Debian-based images (slim, buster, bullseye, etc.) are larger but more compatible.
+
+
+___________________________
+
+In the command docker run -it ny-node-app, the -it flag is actually a combination of two separate flags, -i and -t. Here's what they stand for:
+
+-i (Interactive mode):
+This flag keeps the STDIN (Standard Input) open, even if you're not attached to the container. It allows you to interact with the container in real-time, which is useful if you need to run commands within the container.
+
+-t (Pseudo-TTY or Terminal mode):
+This flag allocates a pseudo-TTY (a terminal), which allows you to have a text-based interface. This is useful for running a container that requires a terminal session, such as when you're using a command-line interface (CLI) inside the container.
+When combined as -it, it allows you to run a container in an interactive terminal session, which is useful for tasks like debugging, running bash, or executing commands within the container.
+
+___________________________

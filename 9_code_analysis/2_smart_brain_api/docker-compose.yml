@@ -1,0 +1,14 @@
+services:
+  smart_brain_api:
+    container_name: backend
+    # image: node:20.15.1
+    build: ./
+    command: npm start
+    working_dir: /usr/src/smart_brain_api
+    ports:
+      - '3000:3000'
+    # current directory : mapped to working directory in container
+    # volumes allows us acces to the file system of the container
+    # this will allow you to make changes in your files and have the updated in the container
+    volumes:
+      - ./:/usr/src/smart_brain_api

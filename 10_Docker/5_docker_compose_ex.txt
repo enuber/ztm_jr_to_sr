@@ -1,0 +1,61 @@
+Creating a docker-compose.yml file allows you to define and manage multi-container Docker applications. Below is an example docker-compose.yml file for a simple Node.js application that uses a MongoDB database.
+
+Example docker-compose.yml
+
+version: '3.8'  # Specify the version of Docker Compose
+
+services:
+  app:
+    image: node:18-alpine  # Use the official Node.js image
+    container_name: my-node-app  # Name of the container
+    working_dir: /usr/src/app  # Set the working directory inside the container
+    volumes:
+      - ./:/usr/src/app  # Mount the current directory to /usr/src/app in the container
+    ports:
+      - "3000:3000"  # Map port 3000 of the host to port 3000 of the container
+    environment:
+      - NODE_ENV=development  # Set environment variables
+    command: npm start  # Command to run inside the container
+    depends_on:
+      - mongo  # Ensure the app service starts after the mongo service
+
+  mongo:
+    image: mongo:latest  # Use the official MongoDB image
+    container_name: my-mongo-db  # Name of the MongoDB container
+    ports:
+      - "27017:27017"  # Map port 27017 of the host to port 27017 of the container
+    volumes:
+      - mongo-data:/data/db  # Persist MongoDB data using a named volume
+
+volumes:
+  mongo-data:  # Define a named volume to persist MongoDB data
+
+
+Explanation:
+Version: Specifies the version of Docker Compose syntax to use.
+
+Services:
+
+app: Defines the Node.js application service.
+image: The base image to use (node:18-alpine).
+container_name: The name of the container.
+working_dir: The working directory inside the container.
+volumes: Mounts the current directory to /usr/src/app in the container.
+ports: Maps port 3000 of the host to port 3000 of the container.
+environment: Sets environment variables.
+command: The command to run inside the container.
+depends_on: Ensures the app starts after MongoDB is up and running.
+
+mongo: Defines the MongoDB service.
+image: The base image to use (mongo:latest).
+container_name: The name of the MongoDB container.
+ports: Maps port 27017 of the host to port 27017 of the container.
+volumes: Persists MongoDB data using a named volume (mongo-data).
+
+Volumes:
+mongo-data: Defines a named volume to persist MongoDB data across container restarts.
+To use this docker-compose.yml file, place it in the root directory of your project and run the following command to start your services:
+
+docker-compose up
+
+This will build and start the containers as defined in the file.

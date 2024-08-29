@@ -1,0 +1,61 @@
+Docker and Containers Explained
+
+The Need for Consistency Across Environments
+When developing applications, it’s crucial that your code runs consistently across various environments—whether it's on different computers, different operating systems, or different versions of Node.js. However, environmental differences can lead to issues where code works on one machine but not another.
+
+Introduction to Containers
+This is where containers come in. Containers are lightweight, portable environments that bundle together your application and everything it needs to run—like code, runtime, system tools, and libraries—ensuring it runs the same way regardless of where it's deployed. Containers are especially useful in modern development where projects are often composed of multiple layers or services, each potentially requiring its own container.
+
+Docker: The Tool for Managing Containers
+Docker is a platform that helps developers create, deploy, and manage containers. It simplifies the process of packaging your application and its dependencies into a single container, which can then be run on any environment that supports Docker.
+
+
+Old Way: Virtual Machines
+
+Virtual Machines (VMs):
+
+Platforms like VMware or VirtualBox allow developers to create virtualized machines—essentially entire computer systems running on top of your existing hardware.
+Each VM includes its own operating system, virtual hardware, kernel, and software, making it feel like a completely separate machine.
+VMs can be resource-heavy and take several minutes to boot up, as each VM is an independent environment.
+
+
+New Way: Docker Containers
+
+Containers:
+
+Lightweight and Fast: Containers, unlike VMs, share the host system's OS, which makes them much lighter and faster. They don't have their own operating system; they use the host's OS.
+Self-Contained Environments: Containers wrap up your application in a complete file system that includes everything it needs to run, ensuring consistency across different environments.
+Microservices: Containers are ideal for running individual applications or services—this is central to the microservices architecture, where each service is isolated in its own container.
+Rapid Deployment: Containers can start up in just a few seconds, making them ideal for scenarios where you need to scale quickly.
+Scalability with Kubernetes: As your application grows, managing many containers can become complex. Kubernetes is a container orchestration tool that helps manage and scale containers across a cluster of machines.
+
+
+Understanding Docker Containers
+
+Host: The machine (e.g., your laptop or a server) where Docker runs.
+Container: A lightweight, portable, self-sufficient environment where your application runs, created using Docker.
+Image: A snapshot of your application bundled with everything it needs to run, used to create containers. The image is immutable and contains the code, libraries, and dependencies.
+Volume: A writable file system associated with the container that allows for data persistence.
+Isolation: The environment inside the container is completely isolated from the host machine’s environment. This means that as long as the host can run Docker, the containerized application will work consistently.
+
+
+Docker Hub
+
+Docker Hub: A public registry (like npm) where you can find and share Docker images. You can either pull pre-built images for common applications or upload your own for others to use.
+Docker and containers have revolutionized the way applications are developed and deployed, enabling faster development cycles, easier scaling, and more consistent environments. They’ve become a fundamental part of modern software development practices, especially in microservices architectures.
+
+
+Set Up:
+
+Simple as loading the docker app. Downloaded desktop version from the docker site.
+
+https://www.docker.com/
+
+
+
+
+
+
+
+
+

@@ -80,3 +80,7 @@ docker-compose up -d
 
 then run this to get the bash command line for the container
 docker-compose exec smart_brain_api bash
+
+
+_____________________________
+more setup stuff

@@ -22,13 +22,20 @@ import { handleImage, handleApiCall } from './controllers/image.js';
 
 const db = knex({
   client: 'pg',
-  connection: {
-    host: '127.0.0.1',
-    port: 5432,
-    user: 'eriknuber',
-    password: '',
-    database: 'smart-brain',
-  },
+  connect: process.env.POSTGRES_URI,
+  // connection: {
+  // updated these to match the docker-compose.yml file, it grabs these from that file, if not using the URI in the .yml file then you would do this.
+  // host: process.env.POSTGRES_HOST,
+  // user: process.env.POSTGRES_USER,
+  // password: process.env.POSTGRES_PASSWORD,
+  // database: process.env.POSTGRES_DB,
+
+  // host: '127.0.0.1',
+  // port: 5432,
+  // user: 'eriknuber',
+  // password: '',
+  // database: 'smart-brain',
+  // },
 });
 
 // console.log(db.select('*').from('users'));

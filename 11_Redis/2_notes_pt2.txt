@@ -1,0 +1,13 @@
+Classifcation of NoSQL database
+
+Key-Value - Redis - similar to objects in JS. In-memory data base, short lived data, good for sessions. use for small pieces of data you need access to and you also don't care if you might lose some of that data. 
+
+Document - mongoDB CouchDB - really good at storing a document-like a linkedin profile. 
+
+Wide Column - Cassandra - 
+
+Graph - neo4j - social media app that describes a graph like connection between the users
+
+
+Can have multiple databases. Like postgres with redis, you have info you need to store that is heavier and needs postgres, and then smaller bits of info that you can use redis with.
+

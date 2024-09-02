@@ -1,0 +1,16 @@
+To start project
+
+in one bash terminal in the 2_smart_brain_api 
+
+docker-compose up --build
+
+and when need to restart that do this to clear old stuff out
+
+docker-compose down 
+
+
+in another terminal under 1_smart_brain d0
+
+npm start
+
+say yes to starting on port 3001

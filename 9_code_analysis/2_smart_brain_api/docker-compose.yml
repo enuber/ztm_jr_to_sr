@@ -7,7 +7,7 @@ services:
     command: npm start
     working_dir: /usr/src/smart_brain_api
     environment:
-      POSTGRES_URI: postgres://sally:secret@postgres:5432/smart-brain
+      POSTGRES_URI: postgres://eriknuber:shannow14@postgres:5432/smart-brain-docker
     # port forwarding saying send localhost 3000 to localhost 3000 since this is running in a container otherwise won't actually show up
     ports:
       - '3000:3000'
@@ -15,16 +15,18 @@ services:
     # this will allow you to make changes in your files and have the updated in the container
     volumes:
       - ./:/usr/src/smart_brain_api
+    depends_on:
+      - postgres
   # postgres
   postgres:
     # don't need a container name because the image already has the container name in it
     # container_name: postgres
-    image: postgres
+    build: ./postgres
     ports:
       - '5433:5432'
     environment:
-      POSTGRES_USER: sally
-      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: eriknuber
+      POSTGRES_PASSWORD: shannow14
       POSTGRES_DB: smart-brain-docker
       # can't reference localhost, so we give it the name of the service which is postgres
       POSTGRES_HOST: postgres

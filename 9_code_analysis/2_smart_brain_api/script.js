@@ -22,7 +22,7 @@ import { handleImage, handleApiCall } from './controllers/image.js';
 
 const db = knex({
   client: 'pg',
-  connect: process.env.POSTGRES_URI,
+  connection: process.env.POSTGRES_URI,
   // connection: {
   // updated these to match the docker-compose.yml file, it grabs these from that file, if not using the URI in the .yml file then you would do this.
   // host: process.env.POSTGRES_HOST,
@@ -46,11 +46,22 @@ const db = knex({
 
 const app = express();
 
+const whitelist = ['http://localhost:3001'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
 //middleware to allow the data coming in to be read.
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(morgan('combined'));
-app.use(cors());
+app.use(cors(corsOptions));
 
 // const database = {
 //   users: [

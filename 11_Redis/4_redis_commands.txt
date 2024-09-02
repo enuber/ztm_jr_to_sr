@@ -1,0 +1,92 @@
+
+The SET command in Redis is a versatile command used to set the value of a key with various options to control how the key is set. Here's a breakdown of the command syntax:
+
+SET key value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time|PXAT unix-time-milliseconds|KEEPTTL] [CH]
+
+
+Explanation of the Options
+key value:
+key: The name of the key you want to set.
+value: The value to associate with the key.
+
+
+[NX|XX] (Optional):
+
+NX: Set the key only if it does not already exist. Useful for implementing a "set if not exists" behavior.
+XX: Set the key only if it already exists. Useful for updating the value of an existing key without creating a new one.
+
+
+[GET] (Optional):
+
+GET: Returns the old value stored at the key before it was updated. If the key did not exist, it returns nil. This can be used to atomically set the new value and retrieve the old value.
+
+
+[EX seconds | PX milliseconds | EXAT unix-time | PXAT unix-time-milliseconds | KEEPTTL] (Optional):
+
+EX seconds: Set the key to expire after a certain number of seconds.
+PX milliseconds: Set the key to expire after a certain number of milliseconds.
+EXAT unix-time: Set the key to expire at a specific Unix timestamp in seconds.
+PXAT unix-time-milliseconds: Set the key to expire at a specific Unix timestamp in milliseconds.
+KEEPTTL: Retain the existing time to live (TTL) of the key. This is useful if the key already has an expiration set and you don't want to reset it.
+
+
+[CH] (Optional):
+
+CH: Modify the command behavior to return 1 if the key was newly set or the value was updated, and 0 if the key was already set to the desired value.
+
+
+
+ex: 
+SET name "godzilla"  // ok
+
+GET name             // "Godzilla"
+
+EXISTS name          // 1 <--- tells you that it exists like 1 = true
+
+DEL name            // 1 <---- showing it happened
+
+EXISTS name          // 0 <--- tells you that it doesn't exist like 0 = false
+
+
+ex 2
+
+SET session "Jenny"   // ok
+
+// note can do this as SET mykey "value" EX 10 will do the same thing without two lines
+EXPIRE session 10    // 1
+
+wait 10 seconds....
+
+GET session       //(nil) <---  doesn't exist
+
+
+ex 3
+
+SET counter 1000  //ok
+
+INCRBY counter 33  //1033
+
+GET counter  // "1033"
+
+DECR counter 33 // 1033 
+
+
+ex 4
+// stands for multiple set
+MSET a 2 b 5   //ok
+
+GET a   // 2
+
+GET b   // 5
+
+MGET a b   / 1. "2" 2. "5"
+
+
+
+REDIS can handle 5 major data types
+
+strings, hashes, lists, sets and sorted sets. 
+
+
+
+

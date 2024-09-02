@@ -2,6 +2,7 @@
 export const handleRegister = async (req, res, db, bcrypt) => {
   const { email, name, password } = req.body;
   if (!email || !name || !password) {
+    console.log('Missing fields:', { email, name, password }); // Log missing fields
     return res.status(400).json('incorrect form submission');
   }
   const hash = bcrypt.hashSync(password);
@@ -14,15 +15,20 @@ export const handleRegister = async (req, res, db, bcrypt) => {
         })
         .returning('email');
 
+      console.log('Login email returned:', loginEmail); // Log the returned email
+
       const user = await trx('users').returning('*').insert({
         email: loginEmail[0].email,
         name: name,
         joined: new Date(),
       });
+      console.log('User registered:', user[0]); // Log the registered user
 
       res.json(user[0]);
     });
   } catch (err) {
+    console.error('Error during registration:', err); // Log the specific error
+
     res.status(400).json('unable to register');
   }
 };

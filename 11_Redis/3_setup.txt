@@ -1,0 +1,30 @@
+https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os/
+
+
+check for brew install
+
+brew --version
+
+brew install redis
+
+/// to start and stop 
+
+// use this to test
+redis-server
+
+// to stop
+ctrl-C
+
+// to start services
+brew services start redis
+
+// check status
+brew services info redis
+
+// to stop
+brew services stop redis
+
+// connect to redis
+// once it's running you can test by running
+redis-cli
+

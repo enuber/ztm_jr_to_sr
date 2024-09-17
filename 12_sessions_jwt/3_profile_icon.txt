@@ -1,0 +1,3 @@
+added in reactstrap and bootstrap for styling and to quickly add in a dropdown. 
+
+the image for the profile icon doesn't exist and tachyons site also shows that it isn't there.

@@ -1,4 +1,4 @@
-export const handleProfile = (req, res, db) => {
+export const handleProfileGet = (req, res, db) => {
   const { id } = req.params;
   // let found = false;
   // database.users.forEach((user) => {
@@ -22,4 +22,20 @@ export const handleProfile = (req, res, db) => {
   // if (!found) {
   //   res.status(400).json('no such user');
   // }
+};
+
+export const handleProfileUpdate = (req, res, db) => {
+  const { id } = req.params;
+  const { name, age, pet } = req.body.formInput;
+  db('users')
+    .where({ id: id })
+    .update({ name: name })
+    .then((resp) => {
+      if (resp) {
+        res.json('success');
+      } else {
+        res.status(400).json('unable to update');
+      }
+    })
+    .catch((err) => res.status(400).json('error updating user'));
 };

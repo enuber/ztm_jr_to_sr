@@ -8,6 +8,7 @@ services:
     working_dir: /usr/src/smart_brain_api
     environment:
       POSTGRES_URI: postgres://eriknuber:shannow14@postgres:5432/smart-brain-docker
+      REDIS_URI: redis://redis:6379
     # port forwarding saying send localhost 3000 to localhost 3000 since this is running in a container otherwise won't actually show up
     ports:
       - '3000:3000'
@@ -30,3 +31,8 @@ services:
       POSTGRES_DB: smart-brain-docker
       # can't reference localhost, so we give it the name of the service which is postgres
       POSTGRES_HOST: postgres
+  #redis
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'

@@ -9,8 +9,12 @@ and when need to restart that do this to clear old stuff out
 docker-compose down 
 
 
-in another terminal under 1_smart_brain d0
+in another terminal under 1_smart_brain do
 
 npm start
 
 say yes to starting on port 3001
+
+jessie@gmail.com
+a
+

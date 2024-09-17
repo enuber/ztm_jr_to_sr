@@ -6,9 +6,13 @@ import morgan from './node_modules/morgan/index.js';
 
 // NOTE REMEMBER - have to have  "type": "module", in package.json to import/export
 import { handleRegister } from './controllers/register.js';
-import { handleSignin } from './controllers/signin.js';
-import { handleProfile } from './controllers/profile.js';
+import { handleSignin, signinAuthentication } from './controllers/signin.js';
+import {
+  handleProfileGet,
+  handleProfileUpdate,
+} from './controllers/profile.js';
 import { handleImage, handleApiCall } from './controllers/image.js';
+import { requireAuth } from './controllers/authorization.js';
 
 // const express = require('express');
 // const bcrypt = require('bcrypt-nodejs');
@@ -46,7 +50,7 @@ const db = knex({
 
 const app = express();
 
-const whitelist = ['http://localhost:3001'];
+const whitelist = ['http://localhost:3001', 'http://localhost:3000'];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -97,16 +101,24 @@ app.get('/', (req, res) => {
 });
 
 //instead of using res.send() express comes with built JSOn method called res.json(). Can still send JSON using res.send(). Slight difference in what is received. When you send the request it goes through as a JSON string not just a string
-app.post('/signin', (req, res) => handleSignin(req, res, db, bcrypt));
+// app.post('/signin', (req, res) => handleSignin(req, res, db, bcrypt));
+
+app.post('/signin', (req, res) => signinAuthentication(req, res, db, bcrypt));
 
 app.post('/register', (req, res) => handleRegister(req, res, db, bcrypt));
 
 //the :id means we can put anything in the url and be able to grab this ID through the request.params property
-app.get('/profile/:id', (req, res) => handleProfile(req, res, db));
+app.get('/profile/:id', requireAuth, (req, res) =>
+  handleProfileGet(req, res, db)
+);
 
-app.put('/image', (req, res) => handleImage(req, res, db));
+app.post('/profile/:id', requireAuth, (req, res) =>
+  handleProfileUpdate(req, res, db)
+);
 
-app.post('/imageurl', (req, res) => handleApiCall(req, res));
+app.put('/image', requireAuth, (req, res) => handleImage(req, res, db));
+
+app.post('/imageurl', requireAuth, (req, res) => handleApiCall(req, res));
 
 //with app.listen() you pass in the port to go to and can have a function attached that can be used for anything
 app.listen(3000, () => {

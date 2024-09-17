@@ -1,0 +1,36 @@
+1. EC2 (Elastic Compute Cloud)
+Basic server infrastructure: EC2 allows you to run virtual servers in the cloud. You can configure the type of machine (CPU, memory, storage, OS) based on your needs.
+Flexibility: You can run any backend or server-side application, such as Node.js, Python, or any framework, on an EC2 instance.
+Scaling: You can use EC2 Auto Scaling to automatically adjust the number of EC2 instances based on traffic and demand.
+
+
+2. S3 (Simple Storage Service)
+Object storage: S3 allows you to store files (objects) in buckets. Each object has its own unique key (ID) and metadata.
+Scalability: S3 scales automatically with the amount of data you store.
+Storage limits: While a single file has a 5GB upload limit in a single PUT operation, you can store unlimited data across files (up to 5TB in a single object using multipart upload).
+Use case: Store images, videos, backups, and static files, or use it as part of a serverless architecture.
+
+3. Lambda
+Serverless computing: Lambda allows you to run backend code without provisioning or managing servers. You write a function, and AWS handles execution, scaling, and availability.
+Event-driven: Lambda is often triggered by events from other AWS services (e.g., uploading a file to S3, changes in a DynamoDB table, HTTP requests from API Gateway).
+Cost-efficient: You only pay for the time your code runs, making it cost-effective for intermittent or event-driven processes.
+
+
+4. CloudFront
+Content Delivery Network (CDN): CloudFront speeds up the delivery of static (and dynamic) content by caching copies at edge locations around the globe.
+Global distribution: It ensures faster load times by serving content from servers geographically closer to the user.
+Automatic HTTPS: CloudFront provides secure content delivery with SSL/TLS encryption by default.
+Use case: Frequently used with S3 to serve static assets like images, videos, and websites.
+
+
+5. DynamoDB
+Managed NoSQL Database: DynamoDB is a fully managed NoSQL service that automatically scales to handle high throughput and storage needs.
+Key-Value storage: Data is stored in key-value pairs, making it ideal for applications with simple data access patterns.
+Automatic scaling: DynamoDB automatically scales its throughput based on demand, ensuring high availability and performance.
+
+
+Example Architecture
+Multiple CloudFront distributions: These might cache static content such as images, CSS, and JavaScript to reduce the load on backend servers and speed up content delivery.
+EC2 to DynamoDB: EC2 instances can interact with DynamoDB to store or retrieve data in a highly scalable NoSQL database.
+EC2 and Lambda with S3: EC2 can communicate with a Lambda function to process data. The Lambda function could retrieve data from an S3 bucket (e.g., user-uploaded images) and send it back to EC2, which processes or serves it further.
+This architecture provides flexibility, scalability, and cost-efficiency for a wide range of web applications.

@@ -1,0 +1,17 @@
+sign in by sending username/password
+
+server does something to make sure these match and geneterate a JWT token which is sent back to the client.
+
+on browser that JWT is stored. This then gets used to be sent back to the server within a header as part of the request. 
+
+Then the server will send back the info based on this information being as expected.
+
+
+The above can work for cookies as well, just changing what is being sent back and forth.
+
+
+
+
+https://jwt.io/
+
+

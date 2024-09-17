@@ -1,0 +1,20 @@
+use lambda with SERVERLESS/SERVER LESS
+
+npm i -g serverless 
+
+or
+
+npm i serverless --save-dev
+
+can run this instead of serverless every time, it's shorthand
+
+glbally can use
+sls 
+
+locally can use
+npx sls
+
+
+create -t aws-nodejs
+
+NOTE: COULD NOT GET THIS PORTION OF COURSE TO WORK

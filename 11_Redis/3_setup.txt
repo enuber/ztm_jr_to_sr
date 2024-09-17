@@ -15,7 +15,7 @@ redis-server
 // to stop
 ctrl-C
 
-// to start services
+// to start services NOTE DO THIS TO START in one terminal
 brew services start redis
 
 // check status
@@ -24,7 +24,7 @@ brew services info redis
 // to stop
 brew services stop redis
 
-// connect to redis
+// connect to redis NOTE DO THIS AFTER in second terminal
 // once it's running you can test by running
 redis-cli
 

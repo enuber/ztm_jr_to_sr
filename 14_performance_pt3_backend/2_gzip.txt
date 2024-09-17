@@ -1,0 +1,74 @@
+gzip 
+
+when you compress a file/folder with gzip, files will be the same but have the .gz extension. 
+
+on an express server its easy...
+
+const compression = require('compression')
+const express = require('express')
+const app = express()
+
+// it works as a middleware, all content sent to client will be gzip
+app.use(compression)
+
+github pages does this automtically
+
+
+
+if you have an expres server how do you gzip?
+
+To gzip files without an Express server, especially when hosting a static website or assets on an EC2 instance, you can use the command line to gzip files directly. Once gzipped, you can configure your web server (like NGINX or Apache) to serve the compressed files.
+
+Steps to gzip files on EC2
+SSH into your EC2 instance: First, SSH into your EC2 instance where your files are hosted.
+ssh -i your-key.pem ec2-user@your-ec2-public-ip
+
+Gzip the files: Navigate to the directory containing the files you want to compress. Use the gzip command to compress them.
+gzip -k your-file.js
+
+
+The -k option tells gzip to keep the original file as well. It will create a new file like your-file.js.gz.
+
+If you want to gzip all files in a folder, you can use a wildcard:
+gzip -k *.js
+
+
+Configure your web server (NGINX example): After gzipping your files, configure NGINX to serve the .gz files if they exist.
+
+In your NGINX configuration file (usually located at /etc/nginx/nginx.conf), add the following configuration for gzip:
+
+//gzip on; is most important. Rest of it may not be needed
+http {
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+    gzip_proxied any;
+    gzip_vary on;
+    gzip_min_length 1000;
+}
+
+
+Additionally, you can configure NGINX to automatically serve pre-gzipped files:
+server {
+    location / {
+        gzip_static on;
+        try_files $uri $uri.gz =404;
+    }
+}
+
+
+Restart NGINX: After making changes to the NGINX configuration, restart the server to apply the settings:
+sudo systemctl restart nginx
+
+
+Benefits of Gzip Compression:
+Faster file delivery: Compressing files reduces their size, leading to faster download times for users.
+Reduced bandwidth usage: Smaller file sizes mean less bandwidth consumption.
+This approach works for any static file hosted on an EC2 instance, even without an Express server.
+
+
+BROTLI - this is about 20% better then GZIP
+
+When to Use Each
+Use Brotli: If you want to maximize compression efficiency and your audience predominantly uses modern browsers that support Brotli. Brotli is especially useful for compressing text-based assets (HTML, CSS, JS).
+
+Use gzip: If you need broader compatibility or if Brotli is not supported by your infrastructure. gzip is a well-established standard and works well for general purposes.

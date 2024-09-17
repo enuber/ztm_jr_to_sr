@@ -1,0 +1,40 @@
+JWT = jason web tokens
+
+sessions = allows you to have an app where people remain signed in
+
+
+Cookies vs tokens
+
+1. Authentication
+JWTs are frequently used in authentication systems. After a user logs in, the server generates a token and sends it to the client, which stores it (often in localStorage or cookies). The token is then included in the headers of subsequent requests to authenticate the user.
+Single Sign-On (SSO) systems rely heavily on JWTs because they allow authentication information to be transmitted securely across different domains or applications.
+
+2. Authorization
+JWTs are commonly used for authorization purposes. Once the user is authenticated, the token contains claims or permissions indicating what the user is allowed to do within the system.
+
+3. Stateless and Scalable Systems
+Since JWTs are self-contained, they enable stateless authentication systems, where the server does not need to store session information. This helps in scaling applications horizontally, especially in distributed systems and microservice architectures.
+
+4. Mobile and Single Page Applications (SPA)
+In mobile applications and SPAs, JWTs are frequently used because they enable token-based authentication, which can be more efficient and flexible than traditional session-based authentication.
+
+5. Decentralized Identity
+JWTs play a significant role in decentralized identity systems where they are used to prove identity and carry identity-related information across platforms in a secure manner.
+
+
+Why JWTs are Still Used:
+Compact and Lightweight: JWTs are lightweight and can be easily passed around in HTTP headers, URLs, or even inside HTML5 web storage.
+Self-contained: JWTs contain all the necessary information (claims), so servers don't need to store session information, making the system stateless.
+Easy to Verify: The server can easily verify the token's signature to ensure its authenticity and integrity.
+Cross-domain Support: Since JWTs are not bound to a specific protocol, they work well across different platforms and domains, making them ideal for distributed applications.
+
+
+Alternatives and Considerations
+While JWTs are still popular, there are alternatives like OAuth 2.0 (which often uses JWT under the hood) or session-based authentication. However, JWTs have some limitations:
+
+Security Risks: Storing JWTs in client-side storage (like localStorage) can expose them to certain attacks (e.g., XSS). Storing them in secure, HttpOnly cookies is often recommended.
+Revocation: JWTs are typically stateless, making them harder to revoke once issued. Systems often have to implement a blacklist or token expiration to mitigate this.
+
+
+Conclusion
+JWTs are still highly relevant and used across various applications, especially for stateless authentication, API security, and cross-platform identity management. Despite some security considerations, they remain a popular and efficient tool in modern web development.

@@ -1,4 +1,5 @@
 import React from 'react';
+import './Signin.css';
 
 class Signin extends React.Component {
   state = {
@@ -13,6 +14,11 @@ class Signin extends React.Component {
 
   onPasswordChange = (evt) => {
     this.setState({ signInPassword: evt.target.value });
+  };
+
+  saveAuthTokenInSession = (token) => {
+    //this is a browser API. already apart of browser (could use localStorage instead if need for longer period)
+    window.sessionStorage.setItem('token', token);
   };
 
   //hooking up to the back end. we are sending the info to the correct route at /signin, have to give it the method type which in this case is 'post' then provide headers for content-type and finally the body of info. According to the route it is expecting the email and password so that is what we are sending. Finally, we are checking on the info and, if it is correct we show the home page. Should also be doing something if the login is unsuccesful beyond staying on the page.
@@ -35,11 +41,24 @@ class Signin extends React.Component {
       }
 
       const user = await response.json();
-
-      if (user.id) {
-        this.props.loadUser(user);
-        this.props.onRouteChange('home');
+      console.log('user - ', user);
+      if (user.userId && user.success === 'true') {
+        this.saveAuthTokenInSession(user.token);
         this.setState({ error: false });
+        fetch(`http://localhost:3000/profile/${user.userId}`, {
+          method: 'get',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: user.token,
+          },
+        })
+          .then((res) => res.json())
+          .then((user) => {
+            if (user && user.email) {
+              this.props.loadUser(user);
+              this.props.onRouteChange('home');
+            }
+          });
       }
     } catch (err) {
       this.setState({
@@ -101,7 +120,7 @@ class Signin extends React.Component {
                 </label>
                 <input
                   onChange={this.onEmailChange}
-                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100 hover-black"
                   type="email"
                   name="email-address"
                   id="email-address"
@@ -114,7 +133,7 @@ class Signin extends React.Component {
                 </label>
                 <input
                   onChange={this.onPasswordChange}
-                  className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
+                  className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100 hover-black"
                   type="password"
                   name="password"
                   id="password"

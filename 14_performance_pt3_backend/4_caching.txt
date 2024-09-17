@@ -1,0 +1,45 @@
+1. Caching Overview
+Caching: Storing data temporarily in a cache to serve it faster upon future requests. Caching is used to avoid redundant operations, like retrieving data from slower storage or recomputing results.
+
+
+2. CPU Caches
+Registers: The fastest, smallest storage located directly on the CPU chip. These hold the data the CPU is currently working with.
+L1, L2, and L3 Cache: CPUs also have small amounts of on-chip memory called cache (split into L1, L2, and L3 caches). These store frequently accessed data from RAM to avoid fetching from slower memory.
+L1 Cache: Fastest, smallest (~32KB to 256KB)
+L2 Cache: Slightly larger (~256KB to 8MB) but slower than L1.
+L3 Cache: Largest (~8MB to 32MB) but slower compared to L1 and L2.
+
+
+3. RAM (Random Access Memory)
+Volatile Storage: RAM is used to store active data for running programs. It is volatile, meaning it loses all data when the system is powered off. However, it is significantly faster than HDDs or SSDs and is used to hold data that the CPU may need soon.
+Access Time: Faster than storage drives but slower than CPU caches.
+Cost: RAM is more expensive than disk storage (HDD/SSD) but more affordable than on-chip caches.
+
+
+4. HDD/SSD (Hard Disk Drive / Solid-State Drive)
+Persistent Storage: Unlike RAM, HDDs and SSDs retain data even when the power is turned off, making them suitable for long-term data storage.
+HDD: Uses spinning disks to read/write data. It’s cheaper but slower.
+SSD: Uses flash memory for faster read/write speeds than HDDs. More expensive but significantly faster.
+Performance Cost: Data retrieval from SSDs or HDDs is slower than RAM, so frequent access to the same data from a disk can bottleneck system performance.
+
+
+Caching and Performance
+CPU Caching: To reduce latency, the CPU uses L1/L2/L3 caches to store small amounts of frequently used data.
+RAM Caching: Applications use RAM to store data that doesn’t fit into CPU caches but still needs to be accessed quickly. The operating system often moves data between RAM and disk to optimize performance.
+Disk Caching: Modern systems use disk caching strategies like using SSDs as cache for frequently accessed files or even leveraging faster memory layers for higher performance.
+
+
+In web applications or databases, caching occurs at multiple levels:
+Application Layer Caching (e.g., Redis, Memcached): Store query results, session data, etc.
+Database Caching (e.g., query caches, in-memory databases): Speed up query response times by caching query results.
+Disk Caching (e.g., using SSDs or using system memory as a cache for disk access).
+This layered approach improves access speed at various stages of data retrieval.
+
+
+
+
+
+
+
+
+

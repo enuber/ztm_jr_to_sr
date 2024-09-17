@@ -2,6 +2,10 @@
 1 in smartbrain_api do the npm start to start the api at localhost:3000
 2 in main smartbrain files do the npm start and say yes in terminal to start the environment at localhost:3001
 
+Other NOTE: to test redis keys/value will need to be in the smartbrain_api and run 
+the docker-compose exec runs commands in a running container and adding redis says what container to run it in followed by redis-cli which is the command to then run tests.
+docker-compose exec redis redis-cli 
+
 // may have to do...start or stop
 brew services start/stop postgresql
 
